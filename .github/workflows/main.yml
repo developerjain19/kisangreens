@@ -4,7 +4,7 @@ on:
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Deplooy
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
