@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-$active_group = 'default';
+$active_group = 'local';
 $query_builder = TRUE;
 
 $db['local'] = array(
@@ -31,7 +31,7 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'aadarmim_Muskan',
-	'password' => 'Muskan@2023',
+	'password' => 'Muskan@2022',
 	'database' => 'aadargld_kisangreens',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => 'tbl_',
