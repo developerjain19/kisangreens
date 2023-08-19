@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-// $config['base_url'] = 'http://localhost/kisan/';
+// $config['base_url'] = 'http://locaslhost/kisan/';
 $config['base_url'] = 'http://kisangreens.com/';
 
 $config['index_page'] = '';
