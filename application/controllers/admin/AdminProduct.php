@@ -124,10 +124,15 @@ class AdminProduct extends CI_Controller
 	}
 
 	//  Product
-
 	public function productAll()
 	{
 		$subCategoryId = $this->input->get('sCateId');
+		$dID = $this->input->get('dID');
+		if (isset($dID)) {
+			$update = $this->CommonModel->updateRowById('product', 'product_id', decryptId($dID), array('is_delete' => '0'));
+			redirect('productAll');
+			exit;
+		}
 
 		$select = "product.*, category.category_name, sub_category.sub_category_name";
 		$join = [

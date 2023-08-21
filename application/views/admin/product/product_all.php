@@ -48,7 +48,7 @@
                                                 <td>
                                                     <a href="<?php echo base_url(); ?>productDetails?id=<?= $id; ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
                                                     <a href="<?php echo base_url(); ?>productAdd?id=<?= $id; ?>" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>
-                                                    <a href="<?php echo base_url("productDelete/$id/1"); ?>" onclick="return confirm('Are you sure ?')" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                                    <a href="<?= base_url("productAll?dID=$id"); ?>" onclick="return confirm('Are you sure ?')" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
                                                 </td>
                                             </tr>
                                     <?php

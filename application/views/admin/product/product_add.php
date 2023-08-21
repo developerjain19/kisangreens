@@ -108,7 +108,8 @@
                                                     <option value="">Select Type</option>
                                                     <option value="gm" <?= $quantity_type == 'gm' ? 'selected' : '' ?>>gm</option>
                                                     <option value="kg" <?= $quantity_type == 'kg' ? 'selected' : '' ?>>kg</option>
-                                                    <option value="pieces" <?= $quantity_type == 'pieces' ? 'selected' : '' ?>>pieces</option>
+                                                    <option value="leter" <?= $quantity_type == 'leter' ? 'selected' : '' ?>>leter</option>
+                                                    <option value="ml" <?= $quantity_type == 'ml' ? 'selected' : '' ?>>ml</option>
                                                 </select>
                                             </div>
                                         </div>
