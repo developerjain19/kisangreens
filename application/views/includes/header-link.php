@@ -13,7 +13,14 @@
 	<link rel="stylesheet" href="<?= base_url() ?>assets/vendor/slickslider/slick.min.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/vendor/niceselect/nice-select.min.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/vendor/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/user-auth.css" />
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/product-details.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/profile.css" />
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/checkout.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/invoice.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/main.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/index.css">
-	<link rel="stylesheet" href="<?= base_url() ?>assets/css/product-details.css">
+
+
+
 </head>

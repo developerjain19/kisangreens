@@ -53,6 +53,11 @@ $route['productImageD/(:any)/(:any)'] = 'admin/AdminProduct/productImageD/$1/$2'
 
 ///////////////////// website   ///////////////////////
 $route['contact'] = 'UserHome/contact';
+$route['login'] = 'UserHome/login';
+$route['register'] = 'UserHome/register';
+$route['checkout'] = 'UserHome/checkout';
+$route['order-history'] = 'UserHome/order_history';
+$route['profile'] = 'UserHome/profile';
 $route['product'] = 'UserHome/product';
 $route['product-details/(:any)/(:any)'] = 'UserHome/product_details/$1/$2';
 /////////////////////  User API    ///////////////////////
