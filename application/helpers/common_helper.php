@@ -154,6 +154,16 @@ function getRowsByMoreIdWithOrder($table, $where, $column, $type)
 		return false;
 	}
 }
+function getRowsByMoreIdWithOrderlimit($table, $where, $column, $type , $limit)
+{
+	$ci = &get_instance();
+	$select = $ci->db->limit($limit)->order_by($column, $type)->get_where($table, $where);
+	if ($select->num_rows() > 0) {
+		return $select->result_array();
+	} else {
+		return false;
+	}
+}
 
 function getDataByIdInOrder($table, $column, $id, $orderColumn, $type)
 {
@@ -563,3 +573,14 @@ function setImage($image_nm, $location)
 			return base_url() . 'upload/default.png';
 		}
 	}
+
+	function mailmsg($to, $subject, $message)
+{
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+    $headers .= 'From:  info@kisangreens.com' . "\r\n";
+    $headers .= 'Cc: ' . $to . "\r\n";
+
+    $send = mail($to, $subject, $message, $headers);
+}

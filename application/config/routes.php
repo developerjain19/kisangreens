@@ -60,6 +60,24 @@ $route['order-history'] = 'UserHome/order_history';
 $route['profile'] = 'UserHome/profile';
 $route['product'] = 'UserHome/product';
 $route['product-details/(:any)/(:any)'] = 'UserHome/product_details/$1/$2';
+$route['orderInvoice/(:any)'] = 'UserHome/orderInvoice/$1';
+$route['orderDetails/(:any)'] = 'UserHome/orderDetails/$1';
+$route['forgot-password'] = 'UserHome/forgot_password';
+$route['search'] = 'UserHome/search';
+$route['orders'] = 'UserHome/orders';
+$route['refund-policy'] = 'UserHome/refund_policy';
+$route['contact'] = 'UserHome/contact';
+$route['about'] = 'UserHome/about';
+$route['term-condition'] = 'UserHome/term_condition';
+$route['privacy-policy'] = 'UserHome/privacy_policy';
+$route['shipping-policy'] = 'UserHome/shipping_policy';
+
+$route['logout'] = 'UserHome/logout';
+$route['booking-status'] = 'UserHome/booking_status';
+
+
+
+
 /////////////////////  User API    ///////////////////////
 
 

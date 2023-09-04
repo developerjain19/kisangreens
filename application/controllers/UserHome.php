@@ -6,7 +6,7 @@ class UserHome extends CI_Controller
         $data['banner'] = $this->CommonModel->getAllRowsInOrder('banner', 'banner_id', 'desc');
         $data['product'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1'), 'product_id', 'DESC', '10');
         $data['productdesc'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1'), 'product_id', 'DESC', '20');
-        $data['featurepro'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1' , 'product_type' => '2' ), 'product_id', 'DESC', '20');
+        $data['featurepro'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1', 'product_type' => '2'), 'product_id', 'DESC', '20');
         $data['cate'] = $this->CommonModel->getAllRowsInOrderWithLimit('category', '25', 'category_id', 'ASC');
         $data['title'] = 'Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('home', $data);
@@ -84,6 +84,7 @@ class UserHome extends CI_Controller
     }
 
 
+
     public function register()
     {
         if ($this->session->has_userdata('login_user_id')) {
@@ -92,17 +93,22 @@ class UserHome extends CI_Controller
         $data['logo'] = 'assets/logo.png';
         $data['title'] = 'Register - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         if (count($_POST) > 0) {
-            $count = $this->CommonModel->getNumRows('user_registration', array('emailid' => $this->input->post('emailid'), 'contact' => $this->input->post('contact')));
+            $count = $this->CommonModel->getNumRows('user_registration', array('email_id' => $this->input->post('email_id'), 'contact_no' => $this->input->post('contact_no')));
+
             if ($count > 0) {
                 $this->session->set_userdata('msg', '<h6 class="alert alert-warning">You have already registered with this email id or contact no.</h6>');
             } else {
                 $post = $this->input->post();
-                $message = sendmail($post['emailid'] . '/' . $post['number'],  $post['password'], base_url() . 'login');
-                sendmail($post['emailid'], 'Registered with  Mielo food products private limited | Welcome User', $message);
+
+                // $message = registermail($post['contact_no'],  $post['password'], base_url() . 'login');
+                // sendmail($post['email_id'], 'Registered With Kisan Greens | Welcome User', $message);
                 $regid = $this->CommonModel->insertRowReturnId('user_registration', $post);
+
+
+
                 if (!empty($regid)) {
                     $this->session->set_userdata('msg', '<h6 class="alert alert-success">You have Registered Successfully.Check mail ID to get your password.Login to continue.</h6>');
-                    $session = $this->session->set_userdata(array('login_user_id' => $regid, 'login_user_name' => $post['fullname'], 'login_user_emailid' => $post['emailid'], 'login_user_contact' => $post['contact']));
+                    $this->session->set_userdata(array('login_user_id' => $regid, 'login_user_name' => $post['name'], 'login_user_emailid' => $post['email_id'], 'login_user_contact' => $post['contact_no']));
                     if (count($this->cart->contents()) > 0) {
                         redirect(base_url('checkout'));
                     } else {
@@ -128,10 +134,10 @@ class UserHome extends CI_Controller
         if (count($_POST) > 0) {
             extract($this->input->post());
             $table = "user_registration";
-            $login_data = $this->CommonModel->getRowByOr($table, array('emailid' => $uname), array('contact' => $uname));
+            $login_data = $this->CommonModel->getRowByOr($table, array('email_id' => $uname), array('contact_no' => $uname));
             if (!empty($login_data)) {
                 if ($login_data[0]['password'] == $password) {
-                    $session = $this->session->set_userdata(array('login_user_id' => $login_data[0]['reg_id'], 'login_user_name' => $login_data[0]['fullname'], 'login_user_emailid' => $login_data[0]['emailid'], 'login_user_contact' => $login_data[0]['contact']));
+                    $session = $this->session->set_userdata(array('login_user_id' => $login_data[0]['user_id'], 'login_user_name' => $login_data[0]['name'], 'login_user_emailid' => $login_data[0]['email_id'], 'login_user_contact' => $login_data[0]['contact_no']));
                     if (count($this->cart->contents()) > 0) {
                         redirect(base_url('checkout'));
                     } else {
@@ -159,7 +165,7 @@ class UserHome extends CI_Controller
             extract($this->input->post());
             $email = $this->input->post('email');
             $table = "user_registration";
-            $login_data = $this->CommonModel->getSingleRowById($table, array('emailid' => $email));
+            $login_data = $this->CommonModel->getSingleRowById($table, array('email_id' => $email));
             if (!empty($login_data)) {
                 $message = '<h6 style="margin: 0;
                 font-size: 1.3em;
@@ -180,10 +186,10 @@ class UserHome extends CI_Controller
                   font-family: Source Sans Pro;
                   letter-spacing: 1px;">Click To login <a href="' . base_url() . 'login" style="text-decoration: none;
                 color: #006573;
-                font-weight: 600;"> Mielo food products private limited</a>
+                font-weight: 600;"> Kisan Greens</a>
                   </p>
         ';
-                mailmsg($email, 'Forgot Password  | From  Mielo food products private limited', $message);
+                mailmsg($email, 'Forgot Password  | From  Kisan Greens', $message);
                 $this->session->set_userdata('forget', '<span class="text-success">Check your mail ID for Password</span>');
                 // redirect(base_url('Index/forget_password'));
             } else {
@@ -201,15 +207,13 @@ class UserHome extends CI_Controller
         if (!$this->session->has_userdata('login_user_id')) {
             redirect('index');
         }
-        $data['category'] = $this->CommonModel->getAllRowsInOrderWithLimit('category', '7', 'category_id', 'ASC');
-        $data['contactdetails'] = $this->CommonModel->getRowById('contactdetails', 'cid', '1');
         $data['login_user'] = $this->session->userdata();
         $data['orderDetails'] = $this->CommonModel->getRowByIdInOrder('checkout', array('user_id' => $this->session->userdata('login_user_id')), 'id', 'DESC');
         $data['checkoutnum'] = $this->CommonModel->getNumRows('checkout', array('user_id' => $this->session->userdata('login_user_id')));
         $data['company'] = "Wholesale kiranawala";
         $data['title'] = ' Profile - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $data['logo'] = 'assets/logo.png';
-        $this->load->view('orders', $data);
+        $this->load->view('order-history', $data);
     }
     public function profile()
     {
@@ -218,10 +222,10 @@ class UserHome extends CI_Controller
         }
         $data['login_user'] = $this->session->userdata();
         $data['orderDetails'] = $this->CommonModel->getRowById('checkout', 'user_id', $this->session->userdata('login_user_id'));
-        $data['profiledata'] = $this->CommonModel->getRowById('user_registration', 'reg_id', $this->session->userdata('login_user_id'));
+        $data['profiledata'] = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'));
         if (count($_POST) > 0) {
             $post = $this->input->post();
-            $savedata = $this->CommonModel->updateRowById('user_registration', 'reg_id', $this->session->userdata('login_user_id'), $post);
+            $savedata = $this->CommonModel->updateRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'), $post);
             if ($savedata) {
                 $this->session->set_flashdata('msg', 'Profile Updated Sucessfully');
                 $this->session->set_flashdata('msg_class', 'alert-success');
@@ -263,7 +267,7 @@ class UserHome extends CI_Controller
         }
         $data['login_user'] = $this->session->userdata();
         $data['orderDetails'] = $this->CommonModel->getRowByIdInOrder('checkout', array('user_id' => $this->session->userdata('login_user_id')), 'id', 'DESC');
-        $data['orderProductDetails'] = $this->CommonModel->getRowById('checkout_product', 'checkoutid', $checkoutID);
+        $data['orderProductDetails'] = $this->CommonModel->getRowById('checkout_product', 'product_book_id', $checkoutID);
         $data['title'] = 'Orde Details - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $data['logo'] = 'assets/logo.png';
         $this->load->view('orderDetails', $data);
@@ -271,7 +275,7 @@ class UserHome extends CI_Controller
     public function checkPromo()
     {
         $promocode = $this->input->post('promocode');
-        echo json_encode($this->CommonModel->getRowById('promocode', 'title', $promocode));
+        echo json_encode($this->CommonModel->getRowById('tbl_promocode', 'promocode', $promocode));
     }
     public function orderInvoice($checkoutID  = true)
     {
@@ -279,8 +283,8 @@ class UserHome extends CI_Controller
             redirect(base_url());
         }
         $data['orderDetails'] = $this->CommonModel->getRowById('checkout', 'id', $checkoutID);
-        $data['orderProductDetails'] = $this->CommonModel->getRowById('checkout_product', 'checkoutid', $checkoutID);
-        $data['title'] = ' Your Order Invoice';
+        $data['orderProductDetails'] = $this->CommonModel->getRowById('checkout_product', 'product_book_id', $checkoutID);
+        $data['title'] = ' Your Order Invoice - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $data['logo'] = 'assets/logo.png';
         $this->load->view('orderInvoice', $data);
     }
@@ -291,7 +295,6 @@ class UserHome extends CI_Controller
         $this->session->unset_userdata('login_user_emailid');
         $this->session->unset_userdata('login_user_contact');
         $this->session->unset_userdata('login_user_type');
-        $this->session->unset_userdata('referal_id');
         redirect(base_url());
     }
 
@@ -299,47 +302,51 @@ class UserHome extends CI_Controller
     {
         if (!$this->session->has_userdata('login_user_id')) {
             redirect('login');
-        } else {
-            $data['login'] = $this->CommonModel->getRowById('user_registration', 'reg_id', $this->session->userdata('login_user_id'));
         }
-        $data['category'] = $this->CommonModel->getAllRowsInOrder('category', 'category_id', 'desc');
+        $data['login'] = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'));
         $data['state_list'] = $this->CommonModel->getAllRows('tbl_state');
-        $data['promocode'] = $this->CommonModel->getRowByMoreId('promocode', array('status' => '0', 'featured' => '0'));
-        $data['logo'] = 'assets/logo.png';
-        $data['project_name'] = ' Mielo food products private limited ';
-        $data['title'] = 'Checkout ';
+        $data['promocode'] = $this->CommonModel->getAllRows('promocode');
+        $data['delivery'] = $this->CommonModel->getAllRows('tbl_delivery_charge')[0];
+
+        $data['title'] = 'Checkout - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         if (count($_POST) > 0) {
-            if ($this->input->post('grand_total') > 0) {
+            if ($this->input->post('final_amount') > 0) {
                 $postdata = $this->input->post();
                 $user_id = $this->input->post('user_id');
                 $state = $this->input->post('state');
                 $city = $this->input->post('city');
-                $pincode = $this->input->post('pincode');
+                $postal_code = $this->input->post('postal_code');
                 $address = $this->input->post('address');
-                $data = array('state' => $state, 'city' => $city, 'pincode' => $pincode, 'address' => $address);
-                $this->CommonModel->updateRowById('user_registration', 'reg_id', $user_id, $data);
-                $postdata['order_id'] = '#' . rand(1000, 10000);
+                $data = array('state' => $state, 'city' => $city, 'postal_code' => $postal_code, 'address' => $address);
+                $this->CommonModel->updateRowById('user_registration', 'user_id', $user_id, $data);
+                $orderId   = orderIdGenerateUser();
+                $postdata['order_id']  = $orderId;
+                $postdata['booking_date'] = setDateOnly();
+                $post = $this->CommonModel->insertRowReturnId('tbl_book_product', $postdata);
 
-                $post = $this->CommonModel->insertRowReturnId('checkout', $postdata);
-                $msg = '';
-                $this->session->set_userdata(array('checkoutid' => $post));
-                // $this->payment( '' , $postdata['grand_total']);
 
+
+               
                 foreach ($this->cart->contents() as $items) :
-                    $vendor_id =   $this->CommonModel->getRowById('products', 'product_id', $items['id']);
-                    $product = array('checkoutid' => $post, 'product_id' => $items['id'], 'product_img' => $items['image'], 'product_name' => $items['name'], 'product_price' => $items['price'], 'product_quantity' => $items['qty'], 'total_pro_amt' => ($items['price'] * $items['qty']));
-                    $msg .= "Product name - " . $items['name'] . '(â‚¹ ' . $items['price'] . ' * ' . $items['qty'] . ')<br/>';
-                    $this->CommonModel->insertRowReturnId('checkout_product', $product);
+                    $mydata[]  = array(
+                        'create_date' => setDateTime(),
+                        'order_id' => $orderId,
+                        'no_of_items' => $items['qty'],
+                        'base_price' => $items['price'],
+                        'user_price' => $items['price'],
+                        'booking_price' => ($items['price'] * $items['qty']),
+                        'product_id' => $items['id'],
+                    );
                 endforeach;
+
+
+                $insert2 = $this->CommonModel->insertRowInBatch('tbl_book_item', $mydata);
+           
                 if ($post != '') {
-                    if ($this->input->post('payment_type') == '0') {
-                        redirect(base_url('booking_status'));
+                    if ($this->input->post('payment_mode') == '1') {
+                        redirect(base_url('booking-status'));
 
-                        $this->cart->destroy();
                         exit();
-                    } else {
-
-                        $this->payment(encryptId($post), $postdata['grand_total']);
                     }
                 } else {
                     echo 'Check Form Data';
@@ -355,25 +362,27 @@ class UserHome extends CI_Controller
     public function booking_status()
     {
 
-        if (count($this->cart->contents()) > 0) {
+        // if (count($this->cart->contents()) > 0) {
             $data['logo'] = 'assets/logo.png';
             $data['title'] = 'Payment Status - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
             $msg = '';
-            $msg .= '<p><figure class="cimg"> <img src="assets/images/booking.png" alt="Booking" style="width:350px"/></figure> </p>';
-            $msg .= "<br/>";
+            $msg .= '<img src="assets/img/order-confirmed.webp" alt="Booking" style="width:100%"/>';
+            
             $msg .= "<p>We're prepping your order.You will be notified regarding the order shipment shortly .<br/>
-        Till then happy shopping ðŸ™‚</p>";
+        Till then happy shopping</p>";
+        $msg .= "<br/>";
             $data['message'] = $msg;
             $this->load->view('payment_msg', $data);
-        } else {
-            redirect(base_url());
-        }
+            // $this->cart->destroy();
+        // } else {
+        //     redirect(base_url());
+        // }
     }
 
     public function getcity()
     {
         $state = $this->input->post('state');
-        $data['city'] = $this->CommonModel->getRowByIdInOrder('tbl_cities', array('state_id' => $state), 'name', 'asc');
+        $data['city'] = $this->CommonModel->getRowByIdInOrder('tbl_city', array('state_id' => $state), 'city_name', 'asc');
         $this->load->view('dropdown', $data);
     }
 
@@ -407,7 +416,4 @@ class UserHome extends CI_Controller
         $data['title'] = 'Terms & Condition - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('term-condition', $data);
     }
-
-    
-
 }

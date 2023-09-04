@@ -1,301 +1,181 @@
 <?php $this->load->view('includes/header'); ?>
-
-
 <section class="inner-section single-banner" style="background: url(assets/images/single-banner.jpg) no-repeat center">
     <div class="container">
         <h2>Checkout</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+        </ol>
     </div>
 </section>
 <section class="inner-section checkout-part">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>Your order</h4>
-                    </div>
-                    <div class="account-content">
-                        <div class="table-scroll">
-                            <table class="table-list">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Serial</th>
-                                        <th scope="col">Product</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">quantity</th>
-                                        <th scope="col">action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="table-serial">
-                                            <h6>01</h6>
-                                        </td>
-                                        <td class="table-image"><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></td>
-                                        <td class="table-name">
-                                            <h6>product name</h6>
-                                        </td>
-                                        <td class="table-price">
-                                            <h6>₹19</h6>
-                                        </td>
-                                        <td class="table-quantity">
-                                            <h6>3</h6>
-                                        </td>
-                                        <td class="table-action"><a class="view" href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#product-view"><i class="fas fa-eye"></i></a><a class="trash" href="#" title="Remove Wishlist"><i class="icofont-trash"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="table-serial">
-                                            <h6>02</h6>
-                                        </td>
-                                        <td class="table-image"><img src="<?= base_url() ?>assets/images/product/02.jpg" alt="product"></td>
-                                        <td class="table-name">
-                                            <h6>product name</h6>
-                                        </td>
-                                        <td class="table-price">
-                                            <h6>₹19</h6>
-                                        </td>
-                                        <td class="table-quantity">
-                                            <h6>5</h6>
-                                        </td>
-                                        <td class="table-action"><a class="view" href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#product-view"><i class="fas fa-eye"></i></a><a class="trash" href="#" title="Remove Wishlist"><i class="icofont-trash"></i></a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+        <form method="post">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="account-card">
+                        <div class="account-title">
+                            <h4>User Info</h4>
                         </div>
-                        <div class="chekout-coupon"><button class="coupon-btn">Do you have a coupon code?</button>
-                            <form class="coupon-form"><input type="text" placeholder="Enter your coupon code"><button type="submit"><span>apply</span></button></form>
-                        </div>
-                        <div class="checkout-charge">
-                            <ul>
-                                <li><span>Sub total</span><span>₹267.45</span></li>
-                                <li><span>delivery fee</span><span>₹10.00</span></li>
-                                <li><span>discount</span><span>₹00.00</span></li>
-                                <li><span>Total<small>(Incl. VAT)</small></span><span>₹277.00</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <input class="form-control" type="hidden" name="total_item_amount" id="totalamount" value="<?php echo $this->cart->total(); ?>">
+                        <input class="form-control" type="hidden" name="final_amount" id="grand_total" value="<?php echo $this->cart->total(); ?>">
+                        <input class="form-control" type="hidden" name="user_id" value="<?= $this->session->userdata('login_user_id') ?>">
+                        <div class="ec-check-bill-form">
 
-            <div class="col-lg-12">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>contact number</h4><button data-bs-toggle="modal" data-bs-target="#contact-add">add
-                            contact</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact active">
-                                    <h6>primary</h6>
-                                    <p>+8801838288389</p>
-                                    <ul>
-                                        <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#contact-edit"></button></li>
-                                        <li><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
+                            <div class="form-outline">
+                                <label>Full name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Name:" value="<?= $login[0]['name'] ?>" required>
                             </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>secondary</h6>
-                                    <p>+8801941101915</p>
-                                    <ul>
-                                        <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#contact-edit"></button></li>
-                                        <li><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
+
+                            <div class="form-outline ">
+                                <label>Contact No.</label>
+                                <input type="text" class="form-control" name="contact_no" placeholder="Phone No:" value="<?= $login[0]['contact_no'] ?>" maxlength="10" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                             </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>secondary</h6>
-                                    <p>+8801747875727</p>
-                                    <ul>
-                                        <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#contact-edit"></button></li>
-                                        <li><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
+                            <div class="form-outline">
+                                <label>State</label>
+                                <select class="form-control" name="state" required id="state">
+                                    <option value="">Select state </option>
+                                    <?php
+                                    if ($state_list) {
+                                        foreach ($state_list as $state) {
+                                    ?>
+                                            <option value="<?= $state['state_id'] ?>" <?= (($state['state_id'] ==  $login[0]['state']) ? 'Selected' : '') ?>><?= $state['state_name'] ?></option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>delivery address</h4><button data-bs-toggle="modal" data-bs-target="#address-add">add
-                            address</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card address active">
-                                    <h6>Home</h6>
-                                    <p>jalkuri, fatullah, narayanganj-1420. word no-09, road no-17/A</p>
-                                    <ul class="user-action">
-                                        <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#address-edit"></button></li>
-                                        <li><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
+                            <div class="form-outline ">
+                                <label>City</label>
+                                <select name="city" class="form-control" id="city">
+                                    <?php
+                                    if ($login[0]['city'] != '') {
+                                    ?>
+                                        }
+                                        <option value="<?= $login[0]['city'] ?>" selected> <?= $login[0]['city'] ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                    <option value="">Select city</option>
+                                </select>
                             </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card address">
-                                    <h6>Office</h6>
-                                    <p>east tejturi bazar, dhaka-1200. word no-04, road no-13/c, house no-4/b</p>
-                                    <ul class="user-action">
-                                        <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#address-edit"></button></li>
-                                        <li><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
+                            <div class="form-outline ">
+                                <label>Pincode</label>
+                                <input type="text" class="form-control" name="postal_code" placeholder="Pincode*" value="<?= $login[0]['postal_code'] ?>" maxlength="6" required>
                             </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card address">
-                                    <h6>Bussiness</h6>
-                                    <p>kawran bazar, dhaka-1100. word no-02, road no-13/d, house no-7/m</p>
-                                    <ul class="user-action">
-                                        <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#address-edit"></button></li>
-                                        <li><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
+                            <div class="form-outline">
+                                <label>Address</label>
+                                <input type="text" class="form-control" name="address" placeholder="Address*" value="<?= $login[0]['address'] ?>" required>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="account-card mb-0">
-                    <div class="account-title">
-                        <h4>payment option</h4><button data-bs-toggle="modal" data-bs-target="#payment-add">add
-                            card</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="payment-card payment active"><img src="<?= base_url() ?>assets/images/payment/png/01.png" alt="payment">
-                                    <h4>card number</h4>
-                                    <p><span>****</span><span>****</span><span>****</span><sup>1876</sup></p>
-                                    <h5>miron mahmud</h5><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button>
+                <div class="col-lg-6">
+                    <div class="account-card">
+                        <div class="account-title">
+                            <h4>Amount Details</h4>
+                        </div>
+                        <div id="cartlist" class="bottom-border"></div>
+                        <div class="account-content">
+                            <div class="faq-parent">
+                                <div class="faq-child">
+                                    <div class="faq-que"><button type="button">Check coupon</button></div>
+                                    <div class="faq-ans">
+                                        <div class="wallet-card-group">
+
+                                            <?php
+
+
+                                            if (!empty($promocode)) {
+                                                foreach ($promocode as $promo) {
+                                                    if ($promo['minimum_order'] <= $this->cart->total()) {
+                                            ?>
+                                                        <div class="wallet-card cborder">
+                                                            <input class="coupon-code" id="coupon<?= $promo['promocode_id'] ?>" value="<?= $promo['promocode'] ?>" readonly>
+                                                            <span class="copy-button" data-id="<?= $promo['promocode_id'] ?>" onclick="myFunction('coupon<?= $promo['promocode_id'] ?>')">Copy</span>
+                                                            <h6 class="pl-2">You Get Flat - <?= $promo['amount'] ?> Off </h6>
+                                                        </div>
+                                            <?php
+
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="chekout-coupon">
+                                <button type="button" class="coupon-btn">Do you have a coupon code?</button>
+                                <div class="coupon-form">
+
+                                    <input type="text" id="promocode" name="promocode" placeholder="Enter your coupon code">
+                                    <input class="form-control form-control-md mr-1 mb-2" type="hidden" placeholder="Enter Your Coupon Code" name="promocode_amount" id="promocode_amt" value="">
+                                    <button type="submit" id="promo"><span>apply</span></button>
+                                    <!-- <h6 id="promomsg" class="text-green"></h6> -->
+
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="payment-card payment"><img src="<?= base_url() ?>assets/images/payment/png/02.png" alt="payment">
-                                    <h4>card number</h4>
-                                    <p><span>****</span><span>****</span><span>****</span><sup>1876</sup></p>
-                                    <h5>miron mahmud</h5><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="payment-card payment"><img src="<?= base_url() ?>assets/images/payment/png/03.png" alt="payment">
-                                    <h4>card number</h4>
-                                    <p><span>****</span><span>****</span><span>****</span><sup>1876</sup></p>
-                                    <h5>miron mahmud</h5><button class="trash icofont-ui-delete" title="Remove This" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
+                            <ul class="invoice-details">
+
+                                <li>
+                                    <h6>Sub Total</h6>
+                                    <p><span class="totalamount"></span></p>
+                                </li>
+                                <li>
+                                    <h6>Delivery Charges</h6>
+                                    <p> <?php
+                                        if ($delivery['min_amount'] >= $this->cart->total()) { ?>
+                                            ₹ <?= $delivery['amount']; ?>
+                                            <input type="hidden" value="<?= $delivery['amount']; ?>" id="shipping_charges">
+                                        <?php   } else { ?>
+                                            Free
+                                            <input type="hidden" value="0" id="shipping_charges">
+                                        <?php } ?>
+                                    </p>
+                                </li>
+                                <li>
+                                    <h6>Payment Method</h6>
+                                    <p>Cash On Delivery</p>
+                                </li>
+                                <li>
+                                    <h6>Total</h6>
+                                    <p><span id="cartgrandprice"> ₹ <?php echo $this->cart->format_number($this->cart->total()); ?> /- </span></p>
+                                </li>
+                            </ul>
+
+                            <div class="checkout-check"><input type="checkbox" id="checkout-check" checked required><label for="checkout-check">By making this purchase you agree to our <a href="#">Terms and
+                                        Conditions</a>.</label></div>
+                            <input type="hidden" name="payment_mode" value="1">
+                            <div class="checkout-proced"><button type="submit" class="btn btn-inline">proced to
+                                    checkout</button></div>
                         </div>
                     </div>
-                    <div class="checkout-check"><input type="checkbox" id="checkout-check"><label for="checkout-check">By making this purchase you agree to our <a href="#">Terms and
-                                Conditions</a>.</label></div>
-                    <div class="checkout-proced"><a href="<?= base_url('order-history') ?>" class="btn btn-inline">proced to
-                            checkout</a></div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </section>
-<div class="modal fade" id="contact-add">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>add new contact</h3>
-                </div>
-                <div class="form-group"><label class="form-label">title</label><select class="form-select">
-                        <option selected>choose title</option>
-                        <option value="primary">primary</option>
-                        <option value="secondary">secondary</option>
-                    </select></div>
-                <div class="form-group"><label class="form-label">number</label><input class="form-control" type="text" placeholder="Enter your number"></div><button class="form-btn" type="submit">save contact info</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="address-add">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>add new address</h3>
-                </div>
-                <div class="form-group"><label class="form-label">title</label><select class="form-select">
-                        <option selected>choose title</option>
-                        <option value="home">home</option>
-                        <option value="office">office</option>
-                        <option value="Bussiness">Bussiness</option>
-                        <option value="academy">academy</option>
-                        <option value="others">others</option>
-                    </select></div>
-                <div class="form-group"><label class="form-label">address</label><textarea class="form-control" placeholder="Enter your address"></textarea></div><button class="form-btn" type="submit">save address info</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="payment-add">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>add new payment</h3>
-                </div>
-                <div class="form-group"><label class="form-label">card number</label><input class="form-control" type="text" placeholder="Enter your card number"></div><button class="form-btn" type="submit">save card info</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="contact-edit">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>edit contact info</h3>
-                </div>
-                <div class="form-group"><label class="form-label">title</label><select class="form-select">
-                        <option value="primary" selected>primary</option>
-                        <option value="secondary">secondary</option>
-                    </select></div>
-                <div class="form-group"><label class="form-label">number</label><input class="form-control" type="text" value="+8801838288389"></div><button class="form-btn" type="submit">save contact
-                    info</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="address-edit">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>edit address info</h3>
-                </div>
-                <div class="form-group"><label class="form-label">title</label><select class="form-select">
-                        <option value="home" selected>home</option>
-                        <option value="office">office</option>
-                        <option value="Bussiness">Bussiness</option>
-                        <option value="academy">academy</option>
-                        <option value="others">others</option>
-                    </select></div>
-                <div class="form-group"><label class="form-label">address</label><textarea class="form-control" placeholder="jalkuri, fatullah, narayanganj-1420. word no-09, road no-17/A"></textarea>
-                </div><button class="form-btn" type="submit">save address info</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
 <?php $this->load->view('includes/footer'); ?>
-
 <?php $this->load->view('includes/footer-link'); ?>
 
+<script>
+    function myFunction(wrapper) {
+        // Get the text field
+        var copyText = document.getElementById(wrapper);
 
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+    }
+    
+</script>
 </body>
 
-</html>
+
+/html>

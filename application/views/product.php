@@ -12,7 +12,8 @@
     <div class="container">
         <div class="row content-reverse">
             <div class="col-lg-3">
-                <div class="shop-widget-promo"><a href="#"><img src="assets/images/promo/shop/01.jpg" alt="promo"></a>
+                <div class="shop-widget-promo">
+                    <!-- <a href="#"><img src="assets/images/promo/shop/01.jpg" alt="promo"></a> -->
                 </div>
                 <div class="shop-widget">
                     <h6 class="shop-widget-title">Filter by Category</h6>
@@ -129,6 +130,7 @@
         });
     });
 </script>
+
 </body>
 
 </html>

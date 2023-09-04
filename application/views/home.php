@@ -8,7 +8,8 @@
                         <h1>Freshness Delivered to Your Doorstep</h1>
                         <p>Discover the true essence of farm-fresh produce with KISAN Greens. We bring the vibrant goodness of nature right to your home.
                         </p>
-                        <div class="banner-btn"><a class="btn btn-inline" href="#"><i class="fas fa-shopping-basket"></i><span>shop now</span></a><a class="btn btn-outline" href="offer.html"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
+                        <div class="banner-btn"><a class="btn btn-inline" href="<?= base_url('product') ?>"><i class="fas fa-shopping-basket"></i><span>shop now</span></a>
+                        <a class="btn btn-outline" href="<?= base_url('product') ?>"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6">
@@ -27,7 +28,7 @@
                     <div class="banner-content">
                         <h1>From Farm to Table, We Deliver Quality</h1>
                         <p>Experience the journey of flavor and nutrition as we source directly from local farmers. Taste the difference with KISAN Greens.</p>
-                        <div class="banner-btn"><a class="btn btn-inline" href="<?= base_url('product') ?>"><i class="fas fa-shopping-basket"></i><span>shop now</span></a><a class="btn btn-outline" href="offer.html"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
+                        <div class="banner-btn"><a class="btn btn-inline" href="<?= base_url('product') ?>"><i class="fas fa-shopping-basket"></i><span>shop now</span></a><a class="btn btn-outline" href="<?= base_url('product') ?>"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
                     </div>
                 </div>
             </div>
@@ -68,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+        <div class="row row-cols-12 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
             <?php
             if ($product != '') {
@@ -79,18 +80,18 @@
                 }
             }
             ?>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-btn-25"><a href="<?= base_url('product') ?>" class="btn btn-outline"><i class="fas fa-eye"></i><span>show more</span></a></div>
-                </div>
+           <div class="row" style="display: contents;">
+            <div class="col-lg-12">
+                <div class="section-btn-25"><a href="<?= base_url('product') ?>" class="btn btn-outline"><i class="fas fa-eye"></i><span>show more</span></a></div>
             </div>
+        </div>
         </div>
 </section>
 <div class="section promo-part">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="promo-img"><a href="#"><img src="<?= base_url() ?>assets/images/promo/home/03.jpg" alt="promo"></a></div>
+                <div class="promo-img"><a href="#"><img src="<?= base_url() ?>assets/img/03.jpg" alt="promo"></a></div>
             </div>
         </div>
     </div>
@@ -184,10 +185,10 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6 px-xl-3">
-                <div class="promo-img"><a href="#"><img src="<?= base_url() ?>assets/images/promo/home/01.jpg" alt="promo"></a></div>
+                <div class="promo-img"><a href="#"><img src="<?= base_url() ?>assets/img/01.jpg" alt="promo"></a></div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 px-xl-3">
-                <div class="promo-img"><a href="#"><img src="<?= base_url() ?>assets/images/promo/home/02.jpg" alt="promo"></a></div>
+                <div class="promo-img"><a href="#"><img src="<?= base_url() ?>assets/img/02.jpg" alt="promo"></a></div>
             </div>
         </div>
     </div>
@@ -270,7 +271,7 @@
     </div>
 </section>
 
-<section class="news-part" style="background: url(images/newsletter.jpg) no-repeat center;">
+<section class="news-part" style="background: url(assets/images/newsletter.jpg) no-repeat center;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-5 col-lg-6 col-xl-7">

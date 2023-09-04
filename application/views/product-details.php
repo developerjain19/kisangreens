@@ -66,11 +66,16 @@
                         </ul>
                     </div>
                     <div class="details-add-group">
-                        <div class="product-action"><button class="action-minus" title="Quantity Minus"><i class="icofont-minus"></i></button><input class="action-input" title="Quantity Number" type="text" name="quantity" value="1"><button class="action-plus" title="Quantity Plus"><i class="icofont-plus"></i></button>
-                        </div>
+                    <div class="product-action">
+                    <button class="action-minus" title="Quantity Minus" data-rowid="<?= $details['product_id'] ?>" data-type="sidecart"><i class="icofont-minus"></i></button>
+                    <input class="action-input" title="Quantity Number" id="qtysidecart<?= $details['product_id'] ?>" type="text" name="quantity" value="1">
+                    <button class="action-plus" title="Quantity Plus" data-rowid="<?= $details['product_id'] ?>" data-type="sidecart"><i class="icofont-plus"></i></button>
+                </div>
                     </div>
-                    <div class="details-action-group"><button class="product-add" title="Add to Cart"><i class="fas fa-shopping-basket"></i><span>add to cart</span></button>
-                    <a class="details-compare" href="compare.html" title="Compare This Item"><i class="fas fa-random"></i><span>Buy Now</span></a></div>
+                    <div class="details-action-group">
+                         <button class="product-add  addCart  crtbtn-<?= $details['product_id'] ?>" data-id="<?= $details['product_id'] ?>" title="Add to Cart"><i class="fas fa-shopping-basket"></i><span>add</span></button>
+                         <button class="details-compare bgchawlk  buynow" data-id="<?= $details['product_id'] ?>" title="Buy Now"><i class="fas fa-shopping-basket"></i><span> Buy Now</span></button>
+                 </div>
                 </div>
             </div>
         </div>
@@ -159,7 +164,7 @@
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
         <?php
-                    $similar = getRowsByMoreIdWithOrder('product', array('category_id' => $details['category_id'])  , 'product_id', 'DESC');
+                    $similar = getRowsByMoreIdWithOrderlimit('product', array('category_id' => $details['category_id'])  , 'product_id', 'DESC' , '10');
                     if (!empty($similar)) {
                         foreach ($similar as $row) {
                             echo '<div class="col">';
@@ -169,21 +174,7 @@
                     }
                     ?>
 
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-media">
-                        <div class="product-label"><label class="label-text sale">sale</label></div><button class="product-wish wish"><i class="fas fa-heart"></i></button><a class="product-image" href="product-video.html"><img src="images/product/08.jpg" alt="product"></a>
-                        <div class="product-widget"><a title="Product Compare" href="compare.html" class="fas fa-random"></a><a title="Product Video" href="https://youtu.be/9xzcVxSBbG8" class="venobox fas fa-play" data-autoplay="true" data-vbtype="video"></a><a title="Product View" href="#" class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#product-view"></a></div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-rating"><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="icofont-star"></i><a href="product-video.html">(3)</a></div>
-                        <h6 class="product-name"><a href="product-video.html">fresh green chilis</a></h6>
-                        <h6 class="product-price"><del>$34</del><span>$28<small>/piece</small></span></h6><button class="product-add" title="Add to Cart"><i class="fas fa-shopping-basket"></i><span>add</span></button>
-                        <div class="product-action"><button class="action-minus" title="Quantity Minus"><i class="icofont-minus"></i></button><input class="action-input" title="Quantity Number" type="text" name="quantity" value="1"><button class="action-plus" title="Quantity Plus"><i class="icofont-plus"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
 
 
 
@@ -192,6 +183,7 @@
 </section>
 <?php $this->load->view('includes/footer'); ?>
 <?php $this->load->view('includes/footer-link'); ?>
+
 </body>
 
 </html>

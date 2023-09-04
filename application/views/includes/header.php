@@ -16,9 +16,9 @@
 				</div>
 				<div class="col-md-7 col-lg-7">
 					<ul class="header-top-list">
-						<li><a href="#">offers</a></li>
-						<li><a href="#">need help</a></li>
-						<li><a href="#">contact us</a></li>
+						<!-- <li><a href="#">offers</a></li> -->
+						<li><a href="tel:7350273572">need help</a></li>
+						<li><a href="<?= base_url('contact') ?>">contact us</a></li>
 					</ul>
 				</div>
 			</div>
@@ -27,13 +27,29 @@
 	<header class="header-part">
 		<div class="container">
 			<div class="header-content">
-				<div class="header-media-group"><button class="header-user"><img src="<?= base_url() ?>assets/images/user.png" alt="user"></button><a href="<?= base_url() ?>"><img src="<?= base_url() ?>assets/images/logo.png" alt="Kisan Greens - Farm Fresh Product"></a><button class="header-src"><i class="fas fa-search"></i></button></div>
+				<div class="header-media-group"><button class="header-user">
+						<i class="fas fa-bars"></i></button>
+					<a href="<?= base_url() ?>">
+						<img src="<?= base_url() ?>assets/images/logo.png" alt="Kisan Greens - Farm Fresh Product"></a><button class="header-src"><i class="fas fa-search"></i></button>
+				</div>
 				<a href="<?= base_url() ?>" class="header-logo"><img src="<?= base_url() ?>assets/images/logo.png" alt="Kisan Greens - Farm Fresh Product"></a>
-				<a href="<?= base_url('login') ?>" class="header-widget" title="My Account"><img src="<?= base_url() ?>assets/images/user.png" alt="user"><span>User Name</span></a>
+				<?php
+				if ($this->session->has_userdata('login_user_id')) :
+				?>
+					<a href="<?= base_url('orders') ?>" class="header-widget" title="My Account">
+						<img src="<?= base_url() ?>assets/images/user.png" alt="user"><span><?= sessionId('login_user_name') ?></span></a>
+				<?php
+				else :
+				?>
+					<a href="<?= base_url('login') ?>" class="header-widget" title="My Account"><img src="<?= base_url() ?>assets/images/user.png" alt="user"><span>Login</span></a>
+				<?php
+				endif;
+				?>
 				<form class="header-form"><input type="text" placeholder="Search anything..."><button><i class="fas fa-search"></i></button></form>
 				<div class="header-widget-group">
 					<button class="header-widget header-cart" title="Cartlist"><i class="fas fa-shopping-basket"></i><sup>
-					<p class="totalitem"><?= $this->cart->total_items(); ?></p></sup><span>total price<small>₹<?php echo $this->cart->format_number($this->cart->total()); ?></small></span></button>
+							<p class="totalitem"><?= $this->cart->total_items(); ?></p>
+						</sup><span>total price<small class="totalamount">₹<?php echo $this->cart->format_number($this->cart->total()); ?></small></span></button>
 				</div>
 			</div>
 		</div>
@@ -85,22 +101,20 @@
 			</div>
 		</div>
 	</nav>
-
 	<aside class="cart-sidebar">
 		<div class="cart-header">
-			<div class="cart-total"><i class="fas fa-shopping-basket"></i> total item <span class="totalitem"> (<?= $this->cart->total_items(); ?>)</span></div>
+			<div class="cart-total"><i class="fas fa-shopping-basket"></i> total item &nbsp;<span class="totalitem"> ( <?= $this->cart->total_items(); ?>)</span></div>
 			<button class="cart-close"><i class="icofont-close"></i></button>
 		</div>
 		<div id="cart"></div>
-		
+
 	
+
 	</aside>
 	<aside class="nav-sidebar">
-		<div class="nav-header"><a href="#"><img src="<?= base_url() ?>assets/	images/logo.png" alt="logo"></a><button class="nav-close"><i class="icofont-close"></i></button></div>
+		<div class="nav-header"><a href="#"><img src="<?= base_url() ?>assets/images/logo.png" alt="logo"></a><button class="nav-close"><i class="icofont-close"></i></button></div>
 		<div class="nav-content">
-			
 			<ul class="nav-list">
-
 				<?php
 				$category =	getAllRow('tbl_category');
 				if (!empty($category)) {
@@ -126,9 +140,6 @@
 		<?php
 					}
 				} ?>
-
-
-
 		<li><a class="nav-link" href="<?= base_url('logout') ?>"><i class="icofont-logout"></i>logout</a></li>
 			</ul>
 			<div class="nav-info-group">
@@ -138,7 +149,6 @@
 				<div class="nav-info"><i class="icofont-ui-email"></i>
 					<p><small>email us</small><span>support@kisangreens.com
 							carrer@kisangreens.com
-
 						</span></p>
 				</div>
 			</div>
@@ -147,72 +157,22 @@
 			</div>
 		</div>
 	</aside>
-	<div class="mobile-menu"><a href="<?= base_url() ?>" title="Home Page"><i class="fas fa-home"></i><span>Home</span></a><button class="cate-btn" title="Category List"><i class="fas fa-list"></i><span>category</span></button><button class="cart-btn" title="Cartlist"><i class="fas fa-shopping-basket"></i><span>cartlist</span><sup>9+</sup></button><a href="wishlist.html" title="Wishlist"><i class="fas fa-heart"></i><span>wishlist</span><sup>0</sup></a><a href="compare.html" title="Compare List"><i class="fas fa-random"></i><span>compare</span><sup>0</sup></a></div>
-	<div class="modal fade" id="product-view">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
-				<div class="product-view">
-					<div class="row">
-						<div class="col-md-6 col-lg-6">
-							<div class="view-gallery">
-								<div class="view-label-group"><label class="view-label new">new</label><label class="view-label off">-10%</label></div>
-								<ul class="preview-slider slider-arrow">
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-								</ul>
-								<ul class="thumb-slider">
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-									<li><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-6">
-							<div class="view-details">
-								<h3 class="view-name"><a href="product-video.html">existing product name</a></h3>
-								<div class="view-meta">
-									<p>SKU:<span>1234567</span></p>
-									<p>BRAND:<a href="#">radhuni</a></p>
-								</div>
-								<div class="view-rating"><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="active icofont-star"></i><i class="icofont-star"></i><a href="product-video.html">(3 reviews)</a></div>
-								<h3 class="view-price"><del>₹38.00</del><span>₹24.00<small>/per kilo</small></span></h3>
-								<p class="view-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit non tempora magni repudiandae sint suscipit tempore quis maxime explicabo veniam eos reprehenderit fuga</p>
-								<div class="view-list-group">
-									<label class="view-list-title">tags:</label>
-									<ul class="view-tag-list">
-										<li><a href="#">organic</a></li>
-										<li><a href="#">vegetable</a></li>
-										<li><a href="#">chilis</a></li>
-									</ul>
-								</div>
-								<div class="view-list-group">
-									<label class="view-list-title">Share:</label>
-									<ul class="view-share-list">
-										<li><a href="#" class="icofont-facebook" title="Facebook"></a></li>
-										<li><a href="#" class="icofont-twitter" title="Twitter"></a></li>
-										<li><a href="#" class="icofont-linkedin" title="Linkedin"></a></li>
-										<li><a href="#" class="icofont-instagram" title="Instagram"></a></li>
-									</ul>
-								</div>
-								<div class="view-add-group">
-									<button class="product-add" title="Add to Cart"><i class="fas fa-shopping-basket"></i><span>add to cart</span></button>
-									<div class="product-action"><button class="action-minus" title="Quantity Minus"><i class="icofont-minus"></i></button><input class="action-input" title="Quantity Number" type="text" name="quantity" value="1"><button class="action-plus" title="Quantity Plus"><i class="icofont-plus"></i></button></div>
-								</div>
-								<div class="view-action-group"><a class="view-wish wish" href="#" title="Add Your Wishlist"><i class="icofont-heart"></i><span>add to wish</span></a><a class="view-compare" href="compare.html" title="Compare This Item"><i class="fas fa-random"></i><span>Compare This</span></a></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="mobile-menu">
+		<a href="<?= base_url() ?>" title="Home Page"><i class="fas fa-home"></i><span>Home</span></a>
+		<a href="<?= base_url('product') ?>" class="cate-btn" title="Category List"><i class="fas fa-list"></i><span>All Products</span></a>
+		<button class="cart-btn" title="Cartlist"><i class="fas fa-shopping-basket"></i><span>cartlist</span><sup class="totalitem"><?= $this->cart->total_items(); ?>+</sup></button>
+		<?php
+		if ($this->session->has_userdata('login_user_id')) {
+		?>
+			<a href="<?= base_url('orders'); ?>"><i class="fas fa-shopping-bag"></i><span>Orders</span></a>
+			
+			<a href="<?= base_url('profile') ?>"><i class="fas fa-user"></i><span>My Account</span></a>
+		<?php
+		} else {
+		?>
+			<a href="<?= base_url('login') ?>"><i class="fas fa-sign-out-alt"></i><span>Sign In</span></a>
+			<a href="<?= base_url('register') ?>"> <i class="fas fa-user"></i><span>Register </span></a>
+		<?php
+		}
+		?>
 	</div>

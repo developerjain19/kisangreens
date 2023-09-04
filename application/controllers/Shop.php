@@ -18,17 +18,17 @@ class Shop extends CI_Controller
     {
         $product_id = $this->input->post('pid');
         $qty = $this->input->post('qty');
-        $product = $this->CommonModel->getRowByIdfield('product', 'product_id', $product_id, array('product_id', 'price', 'pro_name'));
-        $data = getSingleRowById('product_image', array('product_id' => $product_id));
+        $product = $this->CommonModel->getRowByIdfield('tbl_product', 'product_id', $product_id, array('product_id', 'sale_price', 'product_name', 'quantity_type'));
+       
+        $imgdata = getSingleRowById('tbl_product_image', array('product_id' => $product_id));
         $data = array(
             'id'      => $product[0]['product_id'],
             'qty'     => $qty,
             'quantity_type' => $product[0]['quantity_type'],
-            'price'   => $product[0]['price'],
-            'name'    => $product[0]['pro_name'],
-            'image'    => $data['pi_name']
+            'price'   => $product[0]['sale_price'],
+            'name'    => $product[0]['product_name'],
+            'image'    => $imgdata['image_path']
         );
-
         $this->cart->insert($data);
         print_r($this->cart->contents());
     }
@@ -40,6 +40,11 @@ class Shop extends CI_Controller
     public function fetch_data_cart()
     {
         $this->load->view('cart-list');
+    }
+
+    public function fetch_cart()
+    {
+        $this->load->view('cart-product');
     }
     public function delete_item()
     {

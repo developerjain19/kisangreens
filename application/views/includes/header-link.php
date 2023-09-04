@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/checkout.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/invoice.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/main.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/faq.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/index.css">
 
 

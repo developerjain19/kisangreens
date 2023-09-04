@@ -9,6 +9,8 @@ class CommonModel extends CI_Model
 		return $this->db->insert($table, $clean_post);
 	}
 
+	
+
 	public function insertRowWithXSS($table, $post)
 	{
 		$post['create_date'] = setDateTime();
@@ -166,7 +168,7 @@ class CommonModel extends CI_Model
 		} else {
 			return false;
 		}
-	}
+	}	
 
 	public function getSingleRowById($table, $where)
 	{
@@ -318,5 +320,32 @@ class CommonModel extends CI_Model
 		}
 	}
 
-	
+	public function getRowByIdfield($table, $column, $id, $field)
+	{
+		$get = $this->db->select($field)
+			->from($table)
+			->where($column, $id)
+			->get();
+		if ($get->num_rows() > 0) {
+			return $get->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	public function getRowByOr($table, $where, $or_where)
+	{
+		$get = $this->db->select()
+			->from($table)
+			->group_start()
+			->where($where)
+			->or_where($or_where)
+			->group_end()
+			->get();
+		if ($get->num_rows() > 0) {
+			return $get->result_array();
+		} else {
+			return false;
+		}
+	}
 }

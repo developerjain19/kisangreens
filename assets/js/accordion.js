@@ -7,21 +7,18 @@
 
 
 // FOR FAQS
-jQuery(document).ready(function($){
-    
-    var panels = $(".faq-ans").hide();
+jQuery(document).ready(function($) {
+    $(".faq-que button").click(function() {
+        var $this = $(this).closest(".faq-que");
+        var $answer = $this.next(".faq-ans");
 
-    panels.first().show();
-    
-     $(".faq-que").click(function(){
-
-         var $this = $(this);
-
-         panels.slideUp();
-         $this.next().slideDown();
-         
+        if ($answer.is(":visible")) {
+            $answer.slideUp();
+        } else {
+            $(".faq-ans").slideUp();
+            $answer.slideDown();
+        }
     });
-
 });
 
 // FOR ORDER LIST

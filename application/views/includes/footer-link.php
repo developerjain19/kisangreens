@@ -14,6 +14,16 @@
 
 <div id="snackbar">Item Added Successfully</div>
 <script>
+  function fetchdata() {
+    $.ajax({
+      url: '<?= base_url("Shop/fetch_cart") ?>',
+      success: function(response) {
+        $('#cartlist').html(response);
+
+      }
+    });
+  }
+  fetchdata();
 
   function load_product() {
     $.ajax({
@@ -32,6 +42,7 @@
         $('.totalitem').text(response);
       }
     });
+
     $.ajax({
       url: '<?= base_url("Shop/fetch_totalamount") ?>',
       method: 'POST',
@@ -57,7 +68,7 @@
   $(document).on('click', '.addCart', function() {
     var pid = $(this).data('id');
     var qty = $('#qtysidecart' + pid).val();
-     $(".addCart").attr('disabled', true);
+    $(".addCart").attr('disabled', true);
 
     $.ajax({
       method: "POST",
@@ -66,15 +77,15 @@
         pid: pid,
         qty: qty
       },
-      beforeSend: function () {
-			$('#cartbtn'+ pid).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
-		},
+      beforeSend: function() {
+        $('.cartbtn' + pid).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+      },
       success: function(response) {
         console.log("cart response =" + response);
         load_product();
         mySanckbar();
         $(".addCart").attr('disabled', false);
-        $('#cartbtn'+ pid).html('Add To Cart');
+        $('#cartbtn' + pid).html('Add');
         // $("#cart").click();
       }
     });
@@ -167,136 +178,127 @@
       }
     });
   });
- $(document).on('click', '#promo', function() {
-        promo();
-    });
+  $(document).on('click', '#promo', function() {
+    promo();
+  });
 
-    function load_checkoutbar() {
-        var referalpoint = $('#referalpointcheck').data('point');
-       
-            var shipping = $('#shipping').val();
-            var tamt = $('#totalamount').val();
-            var promocode_amt = $('#promocode_amt').val();
-            if (promocode_amt == '') {
-                console.log(parseInt(tamt));
-                $('#cartgrandprice').text(parseInt(tamt) + parseInt(shipping));
-                $('#grand_total').val(parseInt(tamt) + parseInt(shipping));
-                $('#cartprice').text('₹ ' + (parseInt(tamt) + parseInt(shipping)) + '/-');
-                console.log('4');
-            } else {
-                $('#cartgrandprice').text(parseInt(tamt) - parseInt(promocode_amt) + parseInt(shipping));
-                $('#grand_total').val(parseInt(tamt) - parseInt(promocode_amt) + parseInt(shipping));
-                $('#cartprice').text('₹ ' + (parseInt(tamt) - parseInt(promocode_amt) + parseInt(shipping)) + '/-');
-                console.log('3');
+  function load_checkoutbar() {
+    var referalpoint = $('#referalpointcheck').data('point');
 
-            }
+    var shipping = $('#shipping_charges').val();
 
-        
+    
+    var tamt = $('#totalamount').val();
+    var promocode_amt = $('#promocode_amt').val();
+    if (promocode_amt == '') {
+      console.log(parseInt(tamt));
+      $('#cartgrandprice').text('₹ ' + parseInt(tamt) + parseInt(shipping));
+      $('#grand_total').val(parseInt(tamt) + parseInt(shipping));
+      $('#cartprice').text('₹ ' + (parseInt(tamt) + parseInt(shipping)) + '/-');
+      console.log('4');
+    } else {
+      $('#cartgrandprice').text('₹ ' + parseInt(tamt) - parseInt(promocode_amt) + parseInt(shipping));
+      $('#grand_total').val(parseInt(tamt) - parseInt(promocode_amt) + parseInt(shipping));
+      $('#cartprice').text('₹ ' + (parseInt(tamt) - parseInt(promocode_amt) + parseInt(shipping)) + '/-');
+      console.log('3');
+
     }
+  }
 
-    function promo() {
-        var promocode = $('#promocode').val();
-        console.log(promocode);
-        $.ajax({
-                method: "POST",
-                url: "<?= base_url('UserHome/checkPromo') ?>",
-                data: {
-                    promocode: promocode
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response == 'false') {
-                        $('#promomsg').text('');
-                        $('#promocode_amt').val('0');
-                        var tamt = $('#totalamount').val();
-                        var referalpoint = $('#referalpoint').val();
+  function promo() {
+    var promocode = $('#promocode').val();
+    console.log(promocode);
+    $.ajax({
+      method: "POST",
+      url: "<?= base_url('UserHome/checkPromo') ?>",
+      data: {
+        promocode: promocode
+      },
+      success: function(response) {
+        console.log(response);
+        if (response == 'false') {
+          $('#promomsg').text('');
+          $('#promocode_amt').val('0');
+          var tamt = $('#totalamount').val();
+          var referalpoint = $('#referalpoint').val();
 
-                        $('#cartprice').text('₹ ' + parseInt(tamt) + '/-');
+          $('#cartprice').text('₹ ' + parseInt(tamt) + '/-');
 
-                        var sc = $('#shipping_charges').val();
-                        $('#cartgrandprice').text(((parseInt(tamt)) + parseFloat(sc)).toFixed(2));
+          var sc = $('#shipping_charges').val();
+          $('#cartgrandprice').text('₹ ' + ((parseInt(tamt)) + parseFloat(sc)).toFixed(2));
 
 
-                        $('#grand_total').val(parseInt(tamt));
+          $('#grand_total').val(parseInt(tamt));
 
-                        }
-                        else {
-                            var obj = JSON.parse(response);
-                            //  console.log(obj[0]['deduction']);
+        } else {
+          var obj = JSON.parse(response);
+          //  console.log(obj[0]['deduction']);
 
-                            $('#promocode_amt').val(obj[0]['deduction']);
-                            var tamt = $('#totalamount').val();
-                            var lastamt = $('#grand_total').val();
-                            
-                            
-                            if(parseInt(lastamt) >= obj[0]['min_amt'])
-                            {
+          $('#promocode_amt').val(obj[0]['amount']);
+          var tamt = $('#totalamount').val();
+          var lastamt = $('#grand_total').val();
 
-                            $('#promomsg').html('<p style="color:#28a745 "><b>Applied !Promo code Offer amount - ₹ ' + obj[0]['deduction'] + '</b></p>');
-                            $('#cartprice').text('₹ ' + (tamt - obj[0]['deduction']) + '/-');
 
-                            var sc = $('#shipping_charges').val();
-                            $('#cartgrandprice').text(((parseInt(tamt) - (parseInt(obj[0]['deduction']) + parseInt(referalpoint))) + parseFloat(sc)).toFixed(2));
+          if (parseInt(lastamt) >= obj[0]['minimum_order']) {
 
-                            $('#grand_total').val((tamt - obj[0]['deduction']));
-                            }
-                            else
-                            {
-                                alert('This Promocode is not applicable for your order');
-                                location.reload();
-                            }
+            $('#promomsg').html('<span style="color:#28a745 "><b>Applied !Promo code Offer amount - ₹ ' + obj[0]['amount'] + '</b></span>');
+            $('#cartprice').text('₹ ' + (tamt - obj[0]['amount']) + '/-');
 
-                        }
-                    }
-                });
-        }
+            var sc = $('#shipping_charges').val();
+            $('#cartgrandprice').text('₹ ' + (parseInt(tamt) - (parseInt(obj[0]['amount']) + parseFloat(sc)).toFixed(2)));
 
-      
-        function load_cart_list() {
-            $.ajax({
-                url: '<?= base_url("Shop/fetch_data_cart") ?>',
-                method: 'POST',
-                success: function(response) {
-                    $('#cart_items_preview').html(response);
-                }
-            });
+            $('#grand_total').val((parseInt(tamt) - (parseInt(obj[0]['amount']) + parseFloat(sc)).toFixed(2)));
+          } else {
+            alert('This Promocode is not applicable for your order');
+            location.reload();
+          }
 
         }
-
-        function load_checkout_list() {
-            $.ajax({
-                url: '<?= base_url("Shop/fetch_checkout_cart") ?>',
-                method: 'POST',
-                success: function(response) {
-                    $('#checkout_items_preview').html(response);
-                }
-            });
-
-        }
-        
-         $(document).on('click', '.removeCarthm', function() {
-        var pid = $(this).data('id');
-        console.log("pid" + pid);
-        // console.log('sadasd');
-
-        $.ajax({
-            method: "POST",
-            url: "<?= base_url('Shop/delete_item') ?>",
-            data: {
-                pid: pid
-            },
-            success: function(response) {
-                
-                load_product();
-                load_cart_list();
-                load_checkout_list();
-                
-
-            }
-        });
+      }
     });
-        
+  }
 
+
+  function load_cart_list() {
+    $.ajax({
+      url: '<?= base_url("Shop/fetch_data_cart") ?>',
+      method: 'POST',
+      success: function(response) {
+        $('#cart_items_preview').html(response);
+      }
+    });
+
+  }
+
+  function load_checkout_list() {
+    $.ajax({
+      url: '<?= base_url("Shop/fetch_checkout_cart") ?>',
+      method: 'POST',
+      success: function(response) {
+        $('#checkout_items_preview').html(response);
+      }
+    });
+
+  }
+
+  $(document).on('click', '.removeCarthm', function() {
+    var pid = $(this).data('id');
+    console.log("pid" + pid);
+    // console.log('sadasd');
+
+    $.ajax({
+      method: "POST",
+      url: "<?= base_url('Shop/delete_item') ?>",
+      data: {
+        pid: pid
+      },
+      success: function(response) {
+        load_product();
+        load_cart_list();
+        load_checkout_list();
+      }
+    });
+  });
 
   function load_cart_list() {
     $.ajax({
@@ -308,6 +310,6 @@
     });
 
   }
-  
-        load_checkoutbar();
+
+  load_checkoutbar();
 </script>

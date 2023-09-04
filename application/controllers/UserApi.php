@@ -245,7 +245,7 @@ class UserApi extends REST_Controller
                 // } else {
                 //     $allCategory = null;
                 // }
-                
+
                 $getSubCategory = $this->CommonModel->getRowByIdInOrder('sub_category', "is_delete = '1' AND category_id = '1'", "sub_category_name", "ASC");
                 $allCategory = [];
                 if ($getSubCategory) {
@@ -456,7 +456,6 @@ class UserApi extends REST_Controller
             $this->response(array('status' => 401, 'message' => $token['message'], 'data' => null), REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
-
 
     public function createOrder_POST()
     {

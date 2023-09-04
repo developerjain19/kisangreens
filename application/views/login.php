@@ -5,14 +5,18 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
-                
+
                 <div class="user-form-card">
                     <div class="user-form-title">
-                        <h2>welcome!</h2>
+                        <h2>Welcome Please Continue!</h2>
                         <!-- <p>Use your credentials to access</p> -->
+                        <?php if ($this->session->userdata('msg') != '') { ?>
+                            <?= $this->session->userdata('msg'); ?>
+                        <?php  }
+                        $this->session->unset_userdata('msg'); ?>
                     </div>
                     <div class="user-form-group">
-                        <div class="user-form-social text-center">
+                        <div class="user-form-social text-center dm-none">
                             <img src="<?= base_url() ?>assets/img/login-img.png" alt="Image" width="320px">
                         </div>
                         <div class="user-form-divider">
@@ -20,10 +24,10 @@
                         </div>
                         <form class="user-form" method="post" action="">
                             <div class="form-group">
-                                <input type="email" class="form-control" name="username" placeholder="Enter your Username" />
+                                <input type="text" class="form-control" name="uname" placeholder="Enter your Username/Phone" required />
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="password" placeholder="Enter your password" />
+                                <input type="password" class="form-control" name="password" minlength="4" placeholder="Enter your password" required />
                             </div>
                             <div class="form-button">
                                 <button type="submit">login</button>
