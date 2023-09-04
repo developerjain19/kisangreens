@@ -18,7 +18,7 @@ function product($row, $ss)
                     <label class="label-text sale"><?= $row['quantity']; ?> <?= $row['quantity_type']; ?></label>
                 <?php } ?>
             </div>
-            <button class="product-wish wish"><i class="fas fa-heart"></i></button>
+            <!-- <button class="product-wish wish"><i class="fas fa-heart"></i></button> -->
 
             <a class="product-image" href="<?= base_url('product-details/' . encryptId($row['product_id']) . '/' . url_title($row['product_name'])) ?>">
                 <img src="<?= setImage($data['image_path'], 'upload/product/') ?>" alt="product" style="height:185px;object-fit:contain"></a>
