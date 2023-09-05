@@ -113,7 +113,7 @@
 
                                     <input type="text" id="promocode" name="promocode" placeholder="Enter your coupon code">
                                     <input class="form-control form-control-md mr-1 mb-2" type="hidden" placeholder="Enter Your Coupon Code" name="promocode_amount" id="promocode_amt" value="">
-                                    <button type="submit" id="promo"><span>apply</span></button>
+                                    <button type="button" id="promo"><span>apply</span></button>
                                     <!-- <h6 id="promomsg" class="text-green"></h6> -->
 
                                 </div>

@@ -1,8 +1,16 @@
 <?php
 class UserHome extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->profile = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'));
+    }
+
     public function index()
     {
+
         $data['banner'] = $this->CommonModel->getAllRowsInOrder('banner', 'banner_id', 'desc');
         $data['product'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1'), 'product_id', 'DESC', '10');
         $data['productdesc'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1'), 'product_id', 'DESC', '20');
@@ -73,9 +81,9 @@ class UserHome extends CI_Controller
             $post = $this->input->post();
             $insert = $this->CommonModel->insertRowReturnId('contact_query', $post);
             if ($insert) {
-                $this->session->set_userdata('msg', 'Your query is successfully submit. We will contact you as soon as possible.');
+                $this->session->set_userdata('msg', '<div class="alert alert-success">Your query is successfully submit. We will contact you as soon as possible.</div>');
             } else {
-                $this->session->set_userdata('msg', 'We are facing technical error ,please try again later or get in touch with Email ID provided in contact section.');
+                $this->session->set_userdata('msg', '<div class="alert alert-danger">We are facing technical error ,please try again later or get in touch with Email ID provided in contact section.</div>');
             }
         } else {
         }
@@ -144,7 +152,7 @@ class UserHome extends CI_Controller
                         redirect(base_url('profile'));
                     }
                 } else {
-                    $this->session->set_userdata('msg', '<h6 class="alert alert-warning">Wrong Password.</h6>');
+                    $this->session->set_userdata('loginError', '<h6 class="alert alert-warning">Wrong Password.</h6>');
                     redirect(base_url('login'));
                 }
             } else {
@@ -177,9 +185,8 @@ class UserHome extends CI_Controller
                 color: rgb(80, 79, 79);
                 font-family: Source Sans Pro;
                 letter-spacing: 1px;">You Have Been Reset Your Password Sucessfully <br>
-        
-                   Your new Password is  - <span style=" color: #ffa800;
-                  font-weight: 700;">' . $login_data[0]['password'] . '</span> <br>
+                 Your new Password is  - <span style=" color: #ffa800;
+                  font-weight: 700;">' . $login_data['password'] . '</span> <br>
                   <p style="margin: 0;
                   padding: 4px;
                   color: #5892FF;
@@ -190,39 +197,38 @@ class UserHome extends CI_Controller
                   </p>
         ';
                 mailmsg($email, 'Forgot Password  | From  Kisan Greens', $message);
-                $this->session->set_userdata('forget', '<span class="text-success">Check your mail ID for Password</span>');
+                $this->session->set_userdata('forget', '<span class="alert alert-success">Check your mail ID for Password</span>');
                 // redirect(base_url('Index/forget_password'));
             } else {
-                $this->session->set_userdata('forget', '<span class="text-danger">No username found</span>');
-                redirect(base_url('Index/forget_password'));
+                $this->session->set_userdata('forget', '<span class="alert alert-danger">No username found</span>');
+                redirect(base_url('forget-password'));
             }
         } else {
             $this->load->view('forgot-password', $data);
         }
     }
-
-
     public function orders()
     {
         if (!$this->session->has_userdata('login_user_id')) {
-            redirect('index');
+            redirect();
         }
         $data['login_user'] = $this->session->userdata();
-        $data['orderDetails'] = $this->CommonModel->getRowByIdInOrder('checkout', array('user_id' => $this->session->userdata('login_user_id')), 'id', 'DESC');
-        $data['checkoutnum'] = $this->CommonModel->getNumRows('checkout', array('user_id' => $this->session->userdata('login_user_id')));
-        $data['company'] = "Wholesale kiranawala";
+        $data['orderDetails'] = $this->CommonModel->getRowByIdInOrder('book_product', array('user_id' => $this->session->userdata('login_user_id')), 'product_book_id', 'DESC');
+        $data['checkoutnum'] = $this->CommonModel->getNumRows('book_product', array('user_id' => $this->session->userdata('login_user_id')));
         $data['title'] = ' Profile - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $data['logo'] = 'assets/logo.png';
         $this->load->view('order-history', $data);
     }
     public function profile()
     {
+        // echo '<pre>';
+        // print_r($this->profile);
+
         if (!$this->session->has_userdata('login_user_id')) {
             redirect(base_url());
         }
         $data['login_user'] = $this->session->userdata();
-        $data['orderDetails'] = $this->CommonModel->getRowById('checkout', 'user_id', $this->session->userdata('login_user_id'));
-        $data['profiledata'] = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'));
+        $data['profiledata'] = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'))[0];
         if (count($_POST) > 0) {
             $post = $this->input->post();
             $savedata = $this->CommonModel->updateRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'), $post);
@@ -304,6 +310,7 @@ class UserHome extends CI_Controller
             redirect('login');
         }
         $data['login'] = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'));
+
         $data['state_list'] = $this->CommonModel->getAllRows('tbl_state');
         $data['promocode'] = $this->CommonModel->getAllRows('promocode');
         $data['delivery'] = $this->CommonModel->getAllRows('tbl_delivery_charge')[0];
@@ -326,7 +333,7 @@ class UserHome extends CI_Controller
 
 
 
-               
+
                 foreach ($this->cart->contents() as $items) :
                     $mydata[]  = array(
                         'create_date' => setDateTime(),
@@ -341,7 +348,7 @@ class UserHome extends CI_Controller
 
 
                 $insert2 = $this->CommonModel->insertRowInBatch('tbl_book_item', $mydata);
-           
+
                 if ($post != '') {
                     if ($this->input->post('payment_mode') == '1') {
                         redirect(base_url('booking-status'));
@@ -356,27 +363,24 @@ class UserHome extends CI_Controller
             $this->load->view('checkout', $data);
         }
     }
-
-
-
     public function booking_status()
     {
 
-        // if (count($this->cart->contents()) > 0) {
+        if (count($this->cart->contents()) > 0) {
             $data['logo'] = 'assets/logo.png';
             $data['title'] = 'Payment Status - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
             $msg = '';
             $msg .= '<img src="assets/img/order-confirmed.webp" alt="Booking" style="width:100%"/>';
-            
+
             $msg .= "<p>We're prepping your order.You will be notified regarding the order shipment shortly .<br/>
         Till then happy shopping</p>";
-        $msg .= "<br/>";
+            $msg .= "<br/>";
             $data['message'] = $msg;
             $this->load->view('payment_msg', $data);
-            // $this->cart->destroy();
-        // } else {
-        //     redirect(base_url());
-        // }
+            $this->cart->destroy();
+        } else {
+            redirect(base_url());
+        }
     }
 
     public function getcity()
@@ -394,26 +398,32 @@ class UserHome extends CI_Controller
     }
     public function shipping_policy()
     {
-        $data['sp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '2');
+        $data['pp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '3');
         $data['title'] = 'Shipping Policy - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('shipping-policy', $data);
     }
-    public function refund_policy()
-    {
-        $data['rp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '3');
-        $data['title'] = 'Shipping Policy - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
-        $this->load->view('refund-policy', $data);
-    }
-    public function return_policy()
-    {
-        $data['pp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '4');
-        $data['title'] = 'Return Policy - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
-        $this->load->view('return-policy', $data);
-    }
+    // public function refund_policy()
+    // {
+    //     $data['pp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '3');
+    //     $data['title'] = 'Shipping Policy - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
+    //     $this->load->view('refund-policy', $data);
+    // }
+    // public function return_policy()
+    // {
+    //     $data['pp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '4');
+    //     $data['title'] = 'Return Policy - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
+    //     $this->load->view('return-policy', $data);
+    // }
     public function term_condition()
     {
-        $data['terms'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '5');
+        $data['pp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '5');
         $data['title'] = 'Terms & Condition - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('term-condition', $data);
+    }
+
+    public function about()
+    {
+        $data['title'] = 'About Us - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
+        $this->load->view('about', $data);
     }
 }

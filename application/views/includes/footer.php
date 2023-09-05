@@ -42,7 +42,7 @@
 							<?php
 							if ($this->session->has_userdata('login_user_id')) {
 							?>
-								<li> <a href="<?= base_url('profile') ?>"><i class="w-icon-account"></i>My Account</a></li>
+								<li> <a href="<?= base_url('orders') ?>"><i class="w-icon-account"></i>My Orders</a></li>
 								<li> <a href="<?= base_url('logout'); ?>"><i class="w-icon-lock"></i>Logout</a></li>
 							<?php
 							} else {
@@ -55,7 +55,7 @@
 							<li><a href="<?= base_url('contact') ?>">contact us</a></li>
 						</ul>
 						<ul>
-							<li><a href="<?= base_url('refund-policy'); ?>">Return / Refund / Cancellation Policy</a></li>
+							<li><a href="<?= base_url('shipping-policy'); ?>">Return / Refund / Cancellation Policy</a></li>
 							<li><a href="<?= base_url('term-condition'); ?>">Terms & Conditions</a></li>
 							<li><a href="<?= base_url('privacy-policy'); ?>">Privacy Policy</a></li>
 						</ul>

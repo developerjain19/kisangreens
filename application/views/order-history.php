@@ -1,6 +1,4 @@
 <?php $this->load->view('includes/header'); ?>
-
-
 <section class="inner-section single-banner">
     <div class="container">
         <h2>Your Order History</h2>
@@ -10,142 +8,194 @@
         </ol>
     </div>
 </section>
-
-
-
-<section class="inner-section invoice-part">
+<section class="inner-section orderlist-part">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="alert-info">
-                    <p>Thank you! We have recieved your order.</p>
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>order recieved</h4>
-                    </div>
-                    <div class="account-content">
-                        <div class="invoice-recieved">
-                            <h6>order number <span>1665</span></h6>
-                            <h6>order date <span>february 02, 2021</span></h6>
-                            <h6>total amount <span>₹24,176.00</span></h6>
-                            <h6>payment method <span>Cash on delivery</span></h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>Order Details</h4>
-                    </div>
-                    <div class="account-content">
-                        <ul class="invoice-details">
-                            <li>
-                                <h6>Total Item</h6>
-                                <p>2 Items</p>
-                            </li>
-                            <li>
-                                <h6>Order Time</h6>
-                                <p>1.00pm 10-12-2021</p>
-                            </li>
-                            <li>
-                                <h6>Delivery Time</h6>
-                                <p>90 Minute Express Delivery</p>
-                            </li>
-                            <li>
-                                <h6>Delivery Location</h6>
-                                <p>House 17/A, West Jalkuri, Dhaka.</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>Amount Details</h4>
-                    </div>
-                    <div class="account-content">
-                        <ul class="invoice-details">
-                            <li>
-                                <h6>Sub Total</h6>
-                                <p>₹10,864.00</p>
-                            </li>
-                            <li>
-                                <h6>discount</h6>
-                                <p>₹20.00</p>
-                            </li>
-                            <li>
-                                <h6>Payment Method</h6>
-                                <p>Cash On Delivery</p>
-                            </li>
-                            <li>
-                                <h6>Total<small>(Incl. VAT)</small></h6>
-                                <p>₹10,874.00</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="table-scroll">
-                    <table class="table-list">
-                        <thead>
-                            <tr>
-                                <th scope="col">Serial</th>
-                                <th scope="col">Product</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="table-serial">
-                                    <h6>01</h6>
-                                </td>
-                                <td class="table-image"><img src="<?= base_url() ?>assets/images/product/01.jpg" alt="product"></td>
-                                <td class="table-name">
-                                    <h6>product name</h6>
-                                </td>
-                                <td class="table-price">
-                                    <h6>₹19</h6>
-                                </td>
-                               <td class="table-quantity">
-                                    <h6>3</h6>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table-serial">
-                                    <h6>02</h6>
-                                </td>
-                                <td class="table-image"><img src="<?= base_url() ?>assets/images/product/02.jpg" alt="product"></td>
-                                <td class="table-name">
-                                    <h6>product name</h6>
-                                </td>
-                                <td class="table-price">
-                                    <h6>₹19</h6>
-                                </td>
-                                <td class="table-quantity">
-                                    <h6>5</h6>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 text-center mt-5"><a class="btn btn-inline" href="#" target="_blank"><i class="icofont-download"></i><span>download invoice</span></a>
-                <div class="back-home"><a href="<?= base_url() ?>">Back to Home</a></div>
-            </div>
-        </div>
-    </div>
-</section>
+                <div class="orderlist-filter">
+                    <h5>Welcome <span><?= sessionId('login_user_name') ?></span></h5>
+                    <div class="filter-short"><label class="form-label"></label>
 
+                        <a href="<?= base_url('profile') ?>" style="color:green">My Profile<i class="icofont-arrow-right"></i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+
+
+                    <?php
+                    $i = 0;
+                    if (!empty($orderDetails)) {
+                        foreach ($orderDetails as $row) {
+                            $i = $i + 1;
+                            $getnum = getNumRows('tbl_book_item', array('order_id' => $row['order_id']));
+
+                    ?>
+                            <div class="orderlist">
+                                <div class="orderlist-head">
+                                    <h5>order#<?= $i ?></h5>
+                                    <h5>order
+                                        <?= ($row['booking_status'] == '0' ? 'Placed' : ($row['booking_status'] == '1' ? 'Accepted' : ($row['booking_status'] == '2' ? 'Dispatch' : '<span class="text-danger">Cancel</span>'))) ?>
+                                    </h5>
+                                </div>
+                                <div class="orderlist-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="order-track">
+                                                <ul class="order-track-list">
+                                                    <li class="order-track-item active"><i class="icofont-check"></i><span>order
+                                                            Placed</span></li>
+
+
+                                                    <li class="order-track-item   <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3') || ($row['booking_status'] == '4')) {
+                                                                                        echo 'active';
+                                                                                    } else {
+                                                                                    } ?>">
+
+                                                        <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3') || ($row['booking_status'] == '4')) {
+                                                            echo '<i class="icofont-check"></i>';
+                                                        } else {
+                                                            echo '<i class="icofont-close"></i>';
+                                                        } ?>
+                                                        <span>order
+                                                            Accepted</span>
+                                                    </li>
+
+
+                                                    <li class="order-track-item  <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3')) {
+                                                                                        echo 'active';
+                                                                                    } else {
+                                                                                    } ?>">
+                                                        <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3')) {
+                                                            echo '<i class="icofont-check"></i>';
+                                                        } else {
+                                                            echo '<i class="icofont-close"></i>';
+                                                        } ?> <span>order Dispacth</span></li>
+
+
+
+
+                                                    <li class="order-track-item   <?= ($row['booking_status'] == '4' ? 'active' :  '') ?>"> <?= ($row['booking_status'] == '4' ? '<i class="icofont-check"></i>' :  '<i class="icofont-close"></i>') ?><span>order
+                                                            delivered</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <ul class="orderlist-details">
+                                                <li>
+                                                    <h6>order id</h6>
+                                                    <p><?= $row['order_id'] ?></p>
+                                                </li>
+                                                <li>
+                                                    <h6>Total Item</h6>
+                                                    <p><?= $getnum ?> Items</p>
+                                                </li>
+                                                <li>
+                                                    <h6>Order Time</h6>
+                                                    <p><?= $row['booking_date'] ?></p>
+                                                </li>
+                                                <li>
+                                                    <h6>Delivery Time</h6>
+                                                    <p><?= ($row['estimated_time'] != '' ? $row['estimated_time'] : 'Updated Soon...') ?></p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <ul class="orderlist-details">
+                                                <li>
+                                                    <h6>Sub Total</h6>
+                                                    <p>₹ <?= $row['total_item_amount'] ?></p>
+                                                </li>
+                                                <li>
+                                                    <h6>discount</h6>
+                                                    <p><?= ($row['promocode_amount'] > '0' ? '₹     ' . $row['promocode_amount'] : '...') ?></p>
+                                                </li>
+                                                <li>
+                                                    <h6>delivery fee</h6>
+                                                    <p><?= ($row['delivery_charges'] > '0' ? '₹' . $row['delivery_charges'] : 'Free') ?></p>
+                                                </li>
+                                                <li>
+                                                    <h6>Total</h6>
+                                                    <p>₹ <?= $row['final_amount'] ?></p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="orderlist-deliver">
+                                                <h6>Delivery location</h6>
+                                                <p><?= $row['address'] ?></p>
+                                                <hr>
+                                                <h6>Pin Code
+                                                    : <?= $row['postal_code'] ?></h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="table-scroll">
+                                                <table class="table-list">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Serial</th>
+                                                            <th scope="col">Product</th>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Price</th>
+                                                            <th scope="col">quantity</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $j = 0;
+                                                        $checkoutProduct = getRowById('tbl_book_item', 'order_id', $row['order_id']);
+                                                        if (!empty($checkoutProduct)) {
+                                                            foreach ($checkoutProduct as $productRow) {
+                                                                $products = getRowById('product', 'product_id', $productRow['product_id'])[0];
+                                                                $data = getSingleRowById('product_image', array('product_id' => $products['product_id']));
+                                                                $j = $j + 1;
+                                                        ?>
+                                                                <tr>
+                                                                    <td class="table-serial">
+                                                                        <h6><?= $j ?></h6>
+                                                                    </td>
+                                                                    <td class="table-image"><img src="<?= setImage($data['image_path'], 'upload/product/') ?>" alt="<?= $products['product_name'] ?>"></td>
+                                                                    <td class="table-name">
+                                                                        <h6><?= $products['product_name'] ?></h6>
+                                                                    </td>
+                                                                    <td class="table-price">
+                                                                        <h6>₹ <?= $products['sale_price'] ?><small>/<?= $products['quantity'] ?><?= $products['quantity_type'] ?></small></h6>
+                                                                    </td>
+
+                                                                    <td class="table-quantity">
+                                                                        <h6><?= $productRow['no_of_items'] ?></h6>
+                                                                    </td>
+                                                                </tr>
+                                                        <?php
+                                                            }
+                                                        }
+
+                                                        ?>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    <?php }
+                    } else {
+                        echo '<h3>No Order History Found</h3>';
+                    }
+                    ?>
+
+                </div>
+            </div>
+
+        </div>
+</section>
 
 <?php $this->load->view('includes/footer'); ?>
 

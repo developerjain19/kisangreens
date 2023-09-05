@@ -2,7 +2,6 @@
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <?php $this->load->view('includes/header-link'); ?>
-
 <body>
 	<div class="backdrop"></div>
 	<a class="backtop fas fa-arrow-up" href="#"></a>
@@ -37,7 +36,7 @@
 				if ($this->session->has_userdata('login_user_id')) :
 				?>
 					<a href="<?= base_url('orders') ?>" class="header-widget" title="My Account">
-						<img src="<?= base_url() ?>assets/images/user.png" alt="user"><span><?= sessionId('login_user_name') ?></span></a>
+						<img src="<?= base_url() ?>assets/images/user.png" alt="user"><span><?= $this->profile[0]['name'] ?></span></a>
 				<?php
 				else :
 				?>
@@ -45,7 +44,21 @@
 				<?php
 				endif;
 				?>
-				<form class="header-form"><input type="text" placeholder="Search anything..."><button><i class="fas fa-search"></i></button></form>
+				<form action="<?= base_url('product') ?>" action="" class="header-form">
+					<input placeholder="Enter Product Name..." type="text" name="searchbox" list="browsers" id="browser">
+					<datalist id="browsers">
+						<?php
+						$products = getAllRow('product');
+						if (!empty($products)) {
+							foreach ($products as $products_row) {
+						?>
+								<option value="<?= strtoupper($products_row['product_name']); ?>"><?= strtoupper($products_row['product_name']); ?></option>
+						<?php
+							}
+						}
+						?>
+					</datalist><button type="submit"><i class="fas fa-search"></i></button>
+				</form>
 				<div class="header-widget-group">
 					<button class="header-widget header-cart" title="Cartlist"><i class="fas fa-shopping-basket"></i><sup>
 							<p class="totalitem"><?= $this->cart->total_items(); ?></p>
@@ -107,9 +120,6 @@
 			<button class="cart-close"><i class="icofont-close"></i></button>
 		</div>
 		<div id="cart"></div>
-
-	
-
 	</aside>
 	<aside class="nav-sidebar">
 		<div class="nav-header"><a href="#"><img src="<?= base_url() ?>assets/images/logo.png" alt="logo"></a><button class="nav-close"><i class="icofont-close"></i></button></div>
@@ -165,7 +175,6 @@
 		if ($this->session->has_userdata('login_user_id')) {
 		?>
 			<a href="<?= base_url('orders'); ?>"><i class="fas fa-shopping-bag"></i><span>Orders</span></a>
-			
 			<a href="<?= base_url('profile') ?>"><i class="fas fa-user"></i><span>My Account</span></a>
 		<?php
 		} else {

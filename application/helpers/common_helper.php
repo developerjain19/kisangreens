@@ -336,6 +336,12 @@ function checkOrderIdExistUser($number)
 	}
 }
 
+function isStatusActive($status)
+{
+	global $bookingStatus;
+	return in_array($bookingStatus, $status);
+}
+
 function referralCode()
 {
 	$number = 'SM-' . rand(9999, 99999);
@@ -574,13 +580,28 @@ function setImage($image_nm, $location)
 		}
 	}
 
-	function mailmsg($to, $subject, $message)
+
+function mailmsg($to, $subject, $message)
 {
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-    $headers .= 'From:  info@kisangreens.com' . "\r\n";
-    $headers .= 'Cc: ' . $to . "\r\n";
-
-    $send = mail($to, $subject, $message, $headers);
+    $config['protocol']    = 'smtp';
+    $config['smtp_crypto'] = 'ssl';
+    $config['smtp_host']    = 'mail.kisangreens.com';
+    $config['smtp_port']    = '465';
+    $config['smtp_timeout'] = '8';
+    $config['smtp_user']    = 'contact@kisangreens.com';
+    $config['smtp_pass']    = '[&0D.8RAf)Qbk+';
+    $config['charset']    = 'utf-8';
+    $config['newline']    = "\n";
+    $config['mailtype'] = 'html';
+    $config['validation'] = TRUE;     
+    
+    $ci = &get_instance();
+    $ci->email->initialize($config);
+    $ci->email->from('info@kisangreens.com', 'kisan greens');
+    $ci->email->to($to);
+    $ci->email->cc($to);
+    $ci->email->bcc($to);
+    $ci->email->subject($subject);
+    $ci->email->message($message);
+    $ci->email->send();
 }

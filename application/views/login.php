@@ -10,10 +10,10 @@
                     <div class="user-form-title">
                         <h2>Welcome Please Continue!</h2>
                         <!-- <p>Use your credentials to access</p> -->
-                        <?php if ($this->session->userdata('msg') != '') { ?>
-                            <?= $this->session->userdata('msg'); ?>
+                        <?php if ($this->session->userdata('loginError') != '') { ?>
+                            <?= $this->session->userdata('loginError'); ?>
                         <?php  }
-                        $this->session->unset_userdata('msg'); ?>
+                        $this->session->unset_userdata('loginError'); ?>
                     </div>
                     <div class="user-form-group">
                         <div class="user-form-social text-center dm-none">
@@ -32,7 +32,7 @@
                             <div class="form-button">
                                 <button type="submit">login</button>
                                 <p>
-                                    Forgot your password?<a href="<?= base_url() ?>">reset here</a>
+                                    Forgot your password?<a href="<?= base_url('forgot-password') ?>">reset here</a>
                                 </p>
                             </div>
                         </form>

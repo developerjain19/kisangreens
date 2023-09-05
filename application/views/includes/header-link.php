@@ -4,7 +4,7 @@
 	<meta name="template" content="Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh">
 	<meta name="title" content="Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh">
 	<meta name="keywords" content=" Kisan Greens derives its name from the significance of the  Greens that sustain life on Earth. Just like the Sun is essential for our planet, nothing is more vital to us than the green plants that provide food and oxygen, making life possible.">
-	<title>Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh</title>
+	<title><?= $title ?></title>
 	<link rel="icon" href="<?= base_url() ?>assets/images/favicon.png">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/fonts/flaticon/flaticon.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/fonts/icofont/icofont.min.css">
@@ -21,7 +21,6 @@
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/main.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/faq.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/index.css">
-
-
-
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/orderlist.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/contact.css">
 </head>

@@ -187,7 +187,7 @@
 
     var shipping = $('#shipping_charges').val();
 
-    
+
     var tamt = $('#totalamount').val();
     var promocode_amt = $('#promocode_amt').val();
     if (promocode_amt == '') {
@@ -312,4 +312,12 @@
   }
 
   load_checkoutbar();
+
+  $(document).ready(function() {
+    setTimeout(function() {
+      $('.alert').fadeTo(200, 0).slideUp(200, function() {
+        $(this).remove();
+      });
+    }, 4000);
+  });
 </script>

@@ -11,7 +11,7 @@
                  
                     <div class="coming-social">
                     <a href="<?= base_url('product') ?>" class="btn btn-priamry" style="margin-bottom:12px">Continue Shopping</a>
-                    <a href="<?= base_url('orders') ?>" class="btn btn-success">View Orders </a>
+                    <a href="<?= base_url('orders') ?>" class="btn btn-success" style="margin-bottom:12px">View Orders </a>
                     </div>
                 </div>
             </div>
