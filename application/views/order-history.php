@@ -15,24 +15,19 @@
                 <div class="orderlist-filter">
                     <h5>Welcome <span><?= sessionId('login_user_name') ?></span></h5>
                     <div class="filter-short"><label class="form-label"></label>
-
                         <a href="<?= base_url('profile') ?>" style="color:green">My Profile<i class="icofont-arrow-right"></i>
                         </a>
-
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
-
-
                     <?php
                     $i = 0;
                     if (!empty($orderDetails)) {
                         foreach ($orderDetails as $row) {
                             $i = $i + 1;
                             $getnum = getNumRows('tbl_book_item', array('order_id' => $row['order_id']));
-
                     ?>
                             <div class="orderlist">
                                 <div class="orderlist-head">
@@ -48,13 +43,10 @@
                                                 <ul class="order-track-list">
                                                     <li class="order-track-item active"><i class="icofont-check"></i><span>order
                                                             Placed</span></li>
-
-
                                                     <li class="order-track-item   <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3') || ($row['booking_status'] == '4')) {
                                                                                         echo 'active';
                                                                                     } else {
                                                                                     } ?>">
-
                                                         <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3') || ($row['booking_status'] == '4')) {
                                                             echo '<i class="icofont-check"></i>';
                                                         } else {
@@ -63,18 +55,16 @@
                                                         <span>order
                                                             Accepted</span>
                                                     </li>
-
-
-                                                    <li class="order-track-item  <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3')) {
+                                                    
+                                                    <li class="order-track-item  <?php if (($row['booking_status'] == '4') ||  ($row['booking_status'] == '3')) {
                                                                                         echo 'active';
                                                                                     } else {
                                                                                     } ?>">
-                                                        <?php if (($row['booking_status'] == '1') ||  ($row['booking_status'] == '3')) {
+                                                        <?php if (($row['booking_status'] == '4') ||  ($row['booking_status'] == '3')) {
                                                             echo '<i class="icofont-check"></i>';
                                                         } else {
                                                             echo '<i class="icofont-close"></i>';
                                                         } ?> <span>order Dispacth</span></li>
-
 
 
 
@@ -165,7 +155,6 @@
                                                                     <td class="table-price">
                                                                         <h6>₹ <?= $products['sale_price'] ?><small>/<?= $products['quantity'] ?><?= $products['quantity_type'] ?></small></h6>
                                                                     </td>
-
                                                                     <td class="table-quantity">
                                                                         <h6><?= $productRow['no_of_items'] ?></h6>
                                                                     </td>
@@ -173,10 +162,7 @@
                                                         <?php
                                                             }
                                                         }
-
                                                         ?>
-
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -184,24 +170,16 @@
                                     </div>
                                 </div>
                             </div>
-
                     <?php }
                     } else {
                         echo '<h3>No Order History Found</h3>';
                     }
                     ?>
-
                 </div>
             </div>
-
         </div>
 </section>
-
 <?php $this->load->view('includes/footer'); ?>
-
 <?php $this->load->view('includes/footer-link'); ?>
-
-
 </body>
-
 </html>
