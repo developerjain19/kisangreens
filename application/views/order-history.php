@@ -33,7 +33,7 @@
                                 <div class="orderlist-head">
                                     <h5>order#<?= $i ?></h5>
                                     <h5>order
-                                        <?= ($row['booking_status'] == '0' ? 'Placed' : ($row['booking_status'] == '1' ? 'Accepted' : ($row['booking_status'] == '2' ? 'Dispatch' : '<span class="text-danger">Cancel</span>'))) ?>
+                                        <?= ($row['booking_status'] == '0' ? 'Placed' : ($row['booking_status'] == '1' ? 'Accepted' : ($row['booking_status'] == '3' ? 'Dispatch' : ($row['booking_status'] == '4' ? 'Complete' : '<span class="text-danger">Cancel</span>')))) ?>
                                     </h5>
                                 </div>
                                 <div class="orderlist-body">
@@ -55,7 +55,7 @@
                                                         <span>order
                                                             Accepted</span>
                                                     </li>
-                                                    
+
                                                     <li class="order-track-item  <?php if (($row['booking_status'] == '4') ||  ($row['booking_status'] == '3')) {
                                                                                         echo 'active';
                                                                                     } else {
@@ -182,4 +182,5 @@
 <?php $this->load->view('includes/footer'); ?>
 <?php $this->load->view('includes/footer-link'); ?>
 </body>
+
 </html>
