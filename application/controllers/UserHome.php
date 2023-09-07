@@ -370,7 +370,7 @@ class UserHome extends CI_Controller
             $data['logo'] = 'assets/logo.png';
             $data['title'] = 'Payment Status - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
             $msg = '';
-            $msg .= '<img src="assets/img/order-confirmed.webp" alt="Booking" style="width:100%"/>';
+            $msg .= '<img src="assets/img/order.png" alt="Booking" style="max-width: 250px;"/>';
 
             $msg .= "<p>We're prepping your order.You will be notified regarding the order shipment shortly .<br/>
         Till then happy shopping</p>";

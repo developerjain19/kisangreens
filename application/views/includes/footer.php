@@ -23,7 +23,7 @@
 						</li>
 						<li>
 							<i class="icofont-ui-touch-phone"></i>
-							<p><span>+91-7350273572</span> </p>
+							<p><span>+91-9755572682</span> </p>
 						</li>
 						<li>
 							<i class="icofont-location-pin"></i>

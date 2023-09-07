@@ -32,17 +32,19 @@
                             <div class="form-button">
                                 <button type="submit">login</button>
                                 <p>
-                                    Forgot your password?<a href="<?= base_url('forgot-password') ?>">reset here</a>
+                                    Forgot password?<a href="<?= base_url('forgot-password') ?>">reset Now</a>
                                 </p>
-                            </div>
+                           
+                          <hr>
+                                <p>
+                                    Don't have any account?<a href="<?= base_url('register') ?>">register here</a>
+                                </p>
+                                </div>
+                           
                         </form>
                     </div>
                 </div>
-                <div class="user-form-remind">
-                    <p>
-                        Don't have any account?<a href="<?= base_url('register') ?>">register here</a>
-                    </p>
-                </div>
+
             </div>
         </div>
     </div>

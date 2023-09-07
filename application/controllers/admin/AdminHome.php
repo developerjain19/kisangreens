@@ -271,6 +271,13 @@ class AdminHome extends CI_Controller
 		$this->load->view('admin/orders', $data);
 	}
 
+	public function cancelOrders()
+	{
+		$data['allOrders'] = $this->CommonModel->getRowByIdInOrder('book_product', "booking_status = '2' AND (payment_mode = '1' OR payment_mode = '2')", 'create_date', 'DESC');
+		$data['title'] = 'All Cancel Orders';
+		$this->load->view('admin/orders', $data);
+	}
+
 	public function allOrders()
 	{
 		$date = $this->input->get('date');

@@ -23,7 +23,7 @@
             <div class="col-md-6 col-lg-6">
                 <div class="contact-card active"><i class="icofont-phone"></i>
                     <h4>phone number</h4>
-                    <p><a href="tel:7350273572">+91-7350273572</a></p>
+                    <p><a href="tel:9755572682">+91-9755572682</a></p>
                 </div>
             </div>
             <div class="col-md-6 col-lg-6">

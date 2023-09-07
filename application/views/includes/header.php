@@ -16,7 +16,7 @@
 				<div class="col-md-7 col-lg-7">
 					<ul class="header-top-list">
 						<!-- <li><a href="#">offers</a></li> -->
-						<li><a href="tel:7350273572">need help</a></li>
+						<li><a href="tel:9755572682">need help</a></li>
 						<li><a href="<?= base_url('contact') ?>">contact us</a></li>
 					</ul>
 				</div>
@@ -102,7 +102,7 @@
 						<div class="navbar-info-group">
 							<div class="navbar-info">
 								<i class="icofont-ui-touch-phone"></i>
-								<p><small>call us</small><span>(+91) 7350273572</span></p>
+								<p><small>call us</small><span>(+91) 9755572682</span></p>
 							</div>
 							<div class="navbar-info">
 								<i class="icofont-ui-email"></i>
@@ -154,7 +154,7 @@
 			</ul>
 			<div class="nav-info-group">
 				<div class="nav-info"><i class="icofont-ui-touch-phone"></i>
-					<p><small>call us</small><span>+91-7350273572</span></p>
+					<p><small>call us</small><span>+91-9755572682</span></p>
 				</div>
 				<div class="nav-info"><i class="icofont-ui-email"></i>
 					<p><small>email us</small><span>support@kisangreens.com

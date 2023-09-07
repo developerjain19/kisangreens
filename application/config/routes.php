@@ -33,6 +33,7 @@ $route['acceptedOrders'] = 'admin/AdminHome/acceptedOrders';
 $route['dispatchOrder/(:any)/(:any)'] = 'admin/AdminHome/dispatchOrder/$1/$2';
 $route['dispatchOrders'] = 'admin/AdminHome/dispatchOrders';
 $route['completedOrders'] = 'admin/AdminHome/completedOrders';
+$route['cancelOrders'] = 'admin/AdminHome/cancelOrders';
 $route['allOrders'] = 'admin/AdminHome/allOrders';
 
 // => Product

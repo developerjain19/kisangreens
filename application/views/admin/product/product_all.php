@@ -24,6 +24,7 @@
                                         <th>Product Type</th>
                                         <th>Market Price</th>
                                         <th>Sale Price</th>
+                                        <th>Quantity</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -45,6 +46,7 @@
                                                 <td><?= $item['product_type'] == '1' ? 'Normal' : 'Featured' ?></td>
                                                 <td><?= $item['market_price'] ?></td>
                                                 <td><?= $item['sale_price'] ?></td>
+                                                <td><?= $item['quantity'] ?> <?= $item['quantity_type'] ?></td>
                                                 <td>
                                                     <a href="<?php echo base_url(); ?>productDetails?id=<?= $id; ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
                                                     <a href="<?php echo base_url(); ?>productAdd?id=<?= $id; ?>" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>

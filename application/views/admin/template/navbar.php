@@ -36,8 +36,7 @@ $page_id = $this->input->get('page_id');
 						<span key="t-file-manager">Promo Code</span>
 					</a>
 				</li>
-
-				<li>
+					<li>
 					<a href="<?= base_url('setDeliveryCharges') ?>" class="waves-effect">
 						<i class="bx bx-file"></i>
 						<span key="t-file-manager">Delivery Charges</span>
