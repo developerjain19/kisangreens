@@ -58,12 +58,17 @@
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
-                                            <label class="form-label">Postal Code</label><input class="form-control" type="text" name="postal_code" value="<?= $profiledata['postal_code'] ?>" />
+                                            <label class="form-label">Mobile</label><p class="form-control d-flex align-items-center" name="email_id" type="email" value="<?= $profiledata['contact_no'] ?>"/><?= $profiledata['contact_no'] ?></p>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-12">
+                                    <div class="col-md-6 col-lg-8">
                                         <div class="form-group">
                                             <label class="form-label">Address</label><input class="form-control" type="text" name="address" value="<?= $profiledata['address'] ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Postal Code</label><input class="form-control" type="text" name="postal_code" value="<?= $profiledata['postal_code'] ?>" />
                                         </div>
                                     </div>
                                     <div class="col-lg-2">

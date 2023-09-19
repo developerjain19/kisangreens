@@ -15,6 +15,7 @@ class AdminHome extends CI_Controller
 
 	public function dashboard()
 	{
+
 		$getRows['active_user'] = $this->CommonModel->getNumRows("user_registration", "user_status = '1'");
 		$getRows['inactive_user'] = $this->CommonModel->getNumRows("user_registration", "user_status = '0'");
 		$getRows['product_category'] = $this->CommonModel->getNumRows("category", "is_delete = '1'");
@@ -26,6 +27,7 @@ class AdminHome extends CI_Controller
 		$getRows['completed_orders'] = $this->CommonModel->getNumRows("book_product", "booking_status = '4' AND (payment_mode = '1' OR payment_mode = '2' AND transaction_status = '1')");
 		$getRows['canceled_orders'] = $this->CommonModel->getNumRows("book_product", "booking_status = '2' AND (payment_mode = '1' OR payment_mode = '2' AND transaction_status = '1')");
 		$getRows['title'] = "Home";
+		$getRows['recentOrderList'] = $this->CommonModel->getRowByIdInOrder('book_product', "booking_status = '0' AND (payment_mode = '1' OR payment_mode = '2' AND transaction_status = '1')", 'create_date', 'DESC');
 		$this->load->view('admin/index', $getRows);
 	}
 
@@ -227,7 +229,7 @@ class AdminHome extends CI_Controller
 		$cancel_msg = $this->input->post('cancel_msg');
 		$id = $this->input->post('id');
 		if ($cancel_msg != '' and $id != '') {
-			$update = $this->CommonModel->updateRowById('book_product', 'product_book_id', decryptId($id), array('booking_status' => '2', 'cancel_message' => $cancel_msg));
+			$update = $this->CommonModel->updateRowById('book_product', 'product_book_id', decryptId($id), array('booking_status' => '2', 'cancel_message' => $cancel_msg, 'cancel_date' => date('d.m.Y')));
 			flashData('errors', 'Order Cancel successfully');
 		} else {
 			flashData('errors', 'Something went wrong.');
@@ -288,5 +290,13 @@ class AdminHome extends CI_Controller
 		}
 		$data['title'] = 'All Orders';
 		$this->load->view('admin/all_orders', $data);
+	}
+
+	public function categoryFeatured($id, $featured)
+	{
+
+		$categoryData = ['featured' => $featured];
+		$update = $this->CommonModel->updateRowById('tbl_category', 'category_id', decryptId($id), $categoryData);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 }

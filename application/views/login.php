@@ -14,6 +14,12 @@
                             <?= $this->session->userdata('loginError'); ?>
                         <?php  }
                         $this->session->unset_userdata('loginError'); ?>
+                        <?php
+                        if ($this->session->has_userdata('forget')) {
+                            echo $this->session->userdata('forget');
+                            $this->session->unset_userdata('forget');
+                        }
+                        ?>
                     </div>
                     <div class="user-form-group">
                         <div class="user-form-social text-center dm-none">
@@ -34,13 +40,13 @@
                                 <p>
                                     Forgot password?<a href="<?= base_url('forgot-password') ?>">reset Now</a>
                                 </p>
-                           
-                          <hr>
+
+                                <hr>
                                 <p>
                                     Don't have any account?<a href="<?= base_url('register') ?>">register here</a>
                                 </p>
-                                </div>
-                           
+                            </div>
+
                         </form>
                     </div>
                 </div>

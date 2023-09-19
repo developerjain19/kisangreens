@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-$active_group = 'default';
+$active_group = 'local';
 $query_builder = TRUE;
 
 $db['local'] = array(
