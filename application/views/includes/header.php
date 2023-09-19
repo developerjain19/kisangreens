@@ -74,7 +74,8 @@
 					<div class="navbar-content">
 						<ul class="navbar-list">
 							<?php
-							$category =	getAllRow('tbl_category');
+							// $category =	getAllRow('tbl_category');
+							$category = getRowById('tbl_category', 'featured', '1');
 							if (!empty($category)) {
 								foreach ($category as $category_row) {
 							?>

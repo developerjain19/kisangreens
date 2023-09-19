@@ -588,8 +588,8 @@ function mailmsg($to, $subject, $message)
     $config['smtp_host']    = 'mail.kisangreens.com';
     $config['smtp_port']    = '465';
     $config['smtp_timeout'] = '8';
-    $config['smtp_user']    = 'contact@kisangreens.com';
-    $config['smtp_pass']    = '[&0D.8RAf)Qbk+';
+    $config['smtp_user']    = 'info@kisangreens.com';
+    $config['smtp_pass']    = 'Sagar@11';
     $config['charset']    = 'utf-8';
     $config['newline']    = "\n";
     $config['mailtype'] = 'html';

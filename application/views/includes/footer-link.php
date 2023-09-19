@@ -232,13 +232,10 @@
 
         } else {
           var obj = JSON.parse(response);
-          //  console.log(obj[0]['deduction']);
-
+           console.log("amount" + obj[0]['amount']);
           $('#promocode_amt').val(obj[0]['amount']);
           var tamt = $('#totalamount').val();
           var lastamt = $('#grand_total').val();
-
-
           if (parseInt(lastamt) >= obj[0]['minimum_order']) {
 
             $('#promomsg').html('<span style="color:#28a745 "><b>Applied !Promo code Offer amount - ₹ ' + obj[0]['amount'] + '</b></span>');

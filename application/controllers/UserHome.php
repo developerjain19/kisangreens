@@ -197,11 +197,11 @@ class UserHome extends CI_Controller
                   </p>
         ';
                 mailmsg($email, 'Forgot Password  | From  Kisan Greens', $message);
-                $this->session->set_userdata('forget', '<span class="alert alert-success">Check your mail ID for Password</span>');
-                // redirect(base_url('Index/forget_password'));
+                $this->session->set_userdata('forget', '<span class="alert alert-success py-2 mt-2">Check your mail ID for Password</span>');
+                redirect(base_url('login'));
             } else {
-                $this->session->set_userdata('forget', '<span class="alert alert-danger">No username found</span>');
-                redirect(base_url('forget-password'));
+                $this->session->set_userdata('forget', '<span class="alert alert-danger py-2 mt-2">No username found</span>');
+                redirect(base_url('forgot-password'));
             }
         } else {
             $this->load->view('forgot-password', $data);
@@ -214,6 +214,7 @@ class UserHome extends CI_Controller
         }
         $data['login_user'] = $this->session->userdata();
         $data['orderDetails'] = $this->CommonModel->getRowByIdInOrder('book_product', array('user_id' => $this->session->userdata('login_user_id')), 'product_book_id', 'DESC');
+        $data['cancelOrderDetails'] = $this->CommonModel->getRowByIdInMultiOrder('book_product', array('user_id' => $this->session->userdata('login_user_id'), 'booking_status' => '2'), ['product_book_id' => 'DESC']);
         $data['checkoutnum'] = $this->CommonModel->getNumRows('book_product', array('user_id' => $this->session->userdata('login_user_id')));
         $data['title'] = ' Profile - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $data['logo'] = 'assets/logo.png';

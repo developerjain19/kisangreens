@@ -276,7 +276,7 @@
         <div class="row align-items-center">
             <div class="col-md-5 col-lg-6 col-xl-7">
                 <div class="news-text">
-                    <h2>Get 20% Discount for Subscriber</h2>
+                    <h2>Subscribe Monthly Grocery with <br> 20% Discount</h2>
                     <p>Deeply rooted in ethics and values</p>
                 </div>
             </div>

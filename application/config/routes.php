@@ -15,6 +15,7 @@ $route['adminLogout'] = 'admin/AdminAuth/adminLogout';
 $route['dashboard'] = 'admin/AdminHome/dashboard';
 $route['banner'] = 'admin/AdminHome/banner';
 $route['promoCode'] = 'admin/AdminHome/promoCode';
+$route['category-featured/(:any)/(:any)'] = 'admin/AdminHome/categoryFeatured/$1/$2';
 $route['setDeliveryCharges'] = 'admin/AdminHome/setDeliveryCharges';
 
 //  =>  User
