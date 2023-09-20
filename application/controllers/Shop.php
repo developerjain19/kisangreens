@@ -19,14 +19,14 @@ class Shop extends CI_Controller
         $product_id = $this->input->post('pid');
         $qty = $this->input->post('qty');
         $product = $this->CommonModel->getRowByIdfield('tbl_product', 'product_id', $product_id, array('product_id', 'sale_price', 'product_name', 'quantity_type'));
-       
+
         $imgdata = getSingleRowById('tbl_product_image', array('product_id' => $product_id));
         $data = array(
             'id'      => $product[0]['product_id'],
             'qty'     => $qty,
             'quantity_type' => $product[0]['quantity_type'],
             'price'   => $product[0]['sale_price'],
-            'name'    => $product[0]['product_name'],
+            'name'    => clean($product[0]['product_name']),
             'image'    => $imgdata['image_path']
         );
         $this->cart->insert($data);
@@ -71,5 +71,25 @@ class Shop extends CI_Controller
     public function fetch_totalamount()
     {
         echo '₹' . $this->cart->total() . '/-';
+    }
+
+    public function product_discount()
+    {
+        $totalDiscount = 0;
+
+        foreach ($this->cart->contents() as $items) {
+            $data = getSingleRowById('product', array('product_id' => $items['id']));
+
+            $oldPrice = +$data['market_price'];
+            $newPrice = +$data['sale_price'];
+            $oldPrice = bcmul($oldPrice, $items['qty']);
+            $newPrice = bcmul($newPrice, $items['qty']);
+
+
+            $itemDiscount = $oldPrice - $newPrice;
+            $totalDiscount += $itemDiscount;
+        }
+
+        echo '₹' . $totalDiscount . '/- (You Saved)';
     }
 }

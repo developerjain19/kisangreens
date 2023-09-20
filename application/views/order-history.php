@@ -102,7 +102,7 @@
                                                         <p>₹ <?= $row['total_item_amount'] ?></p>
                                                     </li>
                                                     <li>
-                                                        <h6>discount</h6>
+                                                        <h6>Coupon discount</h6>
                                                         <p><?= ($row['promocode_amount'] > '0' ? '₹     ' . $row['promocode_amount'] : '...') ?></p>
                                                     </li>
                                                     <li>
@@ -176,12 +176,13 @@
                             unset($row);
                         }
                     } else {
-                        echo '<h3>No Order History Found</h3>';
+                        echo '<h3 class="text-center">No Order History Found</h3>';
                     }
                     ?>
                 </div>
             </div>
-            <div class="row">
+    
+      <div class="row">
                 <div class="col-lg-12">
                     <?php
                     $i = 0;
@@ -201,8 +202,8 @@
                                         <h5 class="text-secondary">Cancelled on: <?= $row['cancel_date'] ?></h5>
                                     <?php }
                                     ?>
-                                    <h5>order
-                                        <?= ($row['booking_status'] == '0' ? 'Placed' : ($row['booking_status'] == '1' ? 'Accepted' : ($row['booking_status'] == '3' ? 'Dispatch' : ($row['booking_status'] == '4' ? 'Complete' : '<span class="text-danger">Cancel</span>')))) ?>
+                                    <h5>
+                                        <span class="text-danger"> Order Cancel</span>
                                     </h5>
                                 </div>
                                 <div class="orderlist-body">
@@ -317,8 +318,6 @@
                                 </div>
                             </div>
                     <?php }
-                    } else {
-                        echo '<h3>No Order History Found</h3>';
                     }
                     ?>
                 </div>

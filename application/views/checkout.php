@@ -89,7 +89,7 @@
 
                                             if (!empty($promocode)) {
                                                 foreach ($promocode as $promo) {
-                                                    if ($promo['minimum_order'] <= $this->cart->total()) {
+                                                    if ($promo['minimum_order'] < $this->cart->total()) {
                                             ?>
                                                         <div class="wallet-card cborder">
                                                             <input class="coupon-code" id="coupon<?= $promo['promocode_id'] ?>" value="<?= $promo['promocode'] ?>" readonly>
@@ -137,12 +137,19 @@
                                     </p>
                                 </li>
                                 <li>
-                                    <h6>Payment Method</h6>
-                                    <p>Cash On Delivery</p>
+                                    <h6>Product Discount</h6>
+                                    <p class="free" id="prodisount"></p>
                                 </li>
+                                <li id="deducamt"></li>
+                                <hr>
+
                                 <li>
                                     <h6>Total</h6>
                                     <p><span id="cartgrandprice"> ₹ <?php echo $this->cart->format_number($this->cart->total()); ?> /- </span></p>
+                                </li>
+                                <li>
+                                    <h6>Payment Method</h6>
+                                    <p><input type="checkbox" checked> &nbsp;Cash On Delivery</p>
                                 </li>
                             </ul>
 
@@ -173,7 +180,6 @@
         // Copy the text inside the text field
         navigator.clipboard.writeText(copyText.value);
     }
-    
 </script>
 </body>
 

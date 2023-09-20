@@ -19,7 +19,9 @@
       url: '<?= base_url("Shop/fetch_cart") ?>',
       success: function(response) {
         $('#cartlist').html(response);
-
+        load_product();
+        load_cart_list();
+        load_checkout_list();
       }
     });
   }
@@ -49,6 +51,14 @@
       success: function(response) {
         $('.totalamount').text(response);
 
+      }
+    });
+
+    $.ajax({
+      url: '<?= base_url("Shop/product_discount") ?>',
+      method: 'POST',
+      success: function(response) {
+        $('#prodisount').text(response);
       }
     });
     load_checkoutbar();
@@ -105,32 +115,35 @@
       }
     });
   });
-  $(document).on('click', '.removeCarthm', function() {
-    var pid = $(this).data('id');
-    console.log(pid);
-    $.ajax({
-      method: "POST",
-      url: "<?= base_url('Shop/delete_item') ?>",
-      data: {
-        pid: pid
-      },
-      success: function(response) {
-        load_product();
-        alert('Item has been removed into your cart')
-        <?php
-        if (strtolower($title) == 'my cart') {
-        ?>
-          load_cart_list();
-        <?php
-        } else {
-        ?>
-          $("#cart").click();
-        <?php
-        }
-        ?>
-      }
-    });
-  });
+  // $(document).on('click', '.removeCarthm', function() {
+  //   var pid = $(this).data('id'); 
+  //   // console.log(pid);
+  //   $.ajax({
+  //     method: "POST",
+  //     url: "<?= base_url('Shop/delete_item') ?>",
+  //     data: {
+  //       pid: pid
+  //     },
+  //     success: function(response) {
+  //       load_product();
+  //       alert('Item has been removed into your cart')
+  //       <?php
+            //       if (strtolower($title) == 'my cart') {
+            //       
+            ?>
+  //         load_cart_list();
+  //       <?php
+            //       } else {
+            //       
+            ?>
+  //         // $("#cart").click();
+  //       <?php
+            //       }
+            //       
+            ?>
+  //     }
+  //   });
+  // });
   $(document).on('click', '.qty', function() {
     var numberField = jQuery(this).parent().find('[type="number"]');
     var currentVal = numberField.val();
@@ -217,22 +230,20 @@
       success: function(response) {
         console.log(response);
         if (response == 'false') {
+          $('#deducamt').text('');
           $('#promomsg').text('');
           $('#promocode_amt').val('0');
           var tamt = $('#totalamount').val();
           var referalpoint = $('#referalpoint').val();
 
           $('#cartprice').text('₹ ' + parseInt(tamt) + '/-');
-
           var sc = $('#shipping_charges').val();
           $('#cartgrandprice').text('₹ ' + ((parseInt(tamt)) + parseFloat(sc)).toFixed(2));
-
-
           $('#grand_total').val(parseInt(tamt));
 
         } else {
           var obj = JSON.parse(response);
-           console.log("amount" + obj[0]['amount']);
+          console.log("amount" + obj[0]['amount']);
           $('#promocode_amt').val(obj[0]['amount']);
           var tamt = $('#totalamount').val();
           var lastamt = $('#grand_total').val();
@@ -240,6 +251,7 @@
 
             $('#promomsg').html('<span style="color:#28a745 "><b>Applied !Promo code Offer amount - ₹ ' + obj[0]['amount'] + '</b></span>');
             $('#cartprice').text('₹ ' + (tamt - obj[0]['amount']) + '/-');
+            $('#deducamt').html('<h6>Coupon Discount</h6> <p for="free-shipping" class="color-dark free">- ₹ ' + obj[0]['amount'] + '</p>');
 
             var sc = $('#shipping_charges').val();
             $('#cartgrandprice').text('₹ ' + (parseInt(tamt) - (parseInt(obj[0]['amount']) + parseFloat(sc)).toFixed(2)));
@@ -280,9 +292,6 @@
 
   $(document).on('click', '.removeCarthm', function() {
     var pid = $(this).data('id');
-    console.log("pid" + pid);
-    // console.log('sadasd');
-
     $.ajax({
       method: "POST",
       url: "<?= base_url('Shop/delete_item') ?>",
@@ -292,6 +301,7 @@
       success: function(response) {
         load_product();
         load_cart_list();
+        fetchdata();
         load_checkout_list();
       }
     });

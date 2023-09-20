@@ -1083,7 +1083,7 @@ button:focus {
 .dandik,
 .bamdik {
 	position: absolute;
-	top: 50%;
+	top: 60%;
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
 	font-size: 20px;
@@ -1115,11 +1115,11 @@ button:focus {
 }
 
 .dandik {
-	right: -10px;
+	right: 10px;
 }
 
 .bamdik {
-	left: -10px;
+	left: 10px;
 }
 
 .slider-dots ul {
@@ -7200,3 +7200,8 @@ tbody tr td:last-child {
 	color: crimson;
 }
 
+.free
+{
+	color: #119744;
+
+}

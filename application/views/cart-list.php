@@ -16,7 +16,7 @@
 						<input class="action-input" title="Quantity Number" type="text" id="qtysidecart<?= $items['id'] ?>" name="quantity" value="1">
 						<button class="action-plus qty-plus" data-rowid="<?= $items['id']; ?>" title="Quantity Plus"><i class="icofont-plus"></i></button>
 					</div> -->
-					<h6>₹<?php echo $this->cart->format_number($items['price']) * $items['qty']; ?></h6>
+					<h6>₹<?php echo $items['price'] * $items['qty']; ?></h6>
 				</div>
 			</div>
 		</li>

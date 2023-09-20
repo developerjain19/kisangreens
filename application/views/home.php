@@ -1,8 +1,8 @@
 <?php $this->load->view('includes/header'); ?>
 <style>
     .banner-imgs{
-	height:550px !important; 
-	background-size:contain !important;
+	height:500px !important; 
+	background-size:cover !important;
 }
 @media (max-width: 991px) {
 	.banner-imgs{

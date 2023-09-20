@@ -10,6 +10,11 @@ function setDateOnly()
 	return date('Y-m-d');
 }
 
+function clean($string)
+{
+    return preg_replace('/[^A-Za-z0-9\-]/', ' ', $string);
+}
+
 function dateConvertToView($date, $type)
 {
 	if ($type == 1) {

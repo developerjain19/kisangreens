@@ -214,7 +214,9 @@ class UserHome extends CI_Controller
         }
         $data['login_user'] = $this->session->userdata();
         $data['orderDetails'] = $this->CommonModel->getRowByIdInOrder('book_product', array('user_id' => $this->session->userdata('login_user_id')), 'product_book_id', 'DESC');
-        $data['cancelOrderDetails'] = $this->CommonModel->getRowByIdInMultiOrder('book_product', array('user_id' => $this->session->userdata('login_user_id'), 'booking_status' => '2'), ['product_book_id' => 'DESC']);
+
+        $data['cancelOrderDetails'] = $this->CommonModel->getRowByIdInOrder('book_product', 'user_id = ' . $this->session->userdata('login_user_id') . ' AND booking_status = "2" ', 'product_book_id', 'DESC');
+
         $data['checkoutnum'] = $this->CommonModel->getNumRows('book_product', array('user_id' => $this->session->userdata('login_user_id')));
         $data['title'] = ' Profile - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $data['logo'] = 'assets/logo.png';
