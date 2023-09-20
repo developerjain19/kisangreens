@@ -23,4 +23,5 @@
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/index.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/orderlist.css">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/contact.css">
+	
 </head>

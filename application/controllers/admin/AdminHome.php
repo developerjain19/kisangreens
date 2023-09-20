@@ -27,7 +27,7 @@ class AdminHome extends CI_Controller
 		$getRows['completed_orders'] = $this->CommonModel->getNumRows("book_product", "booking_status = '4' AND (payment_mode = '1' OR payment_mode = '2' AND transaction_status = '1')");
 		$getRows['canceled_orders'] = $this->CommonModel->getNumRows("book_product", "booking_status = '2' AND (payment_mode = '1' OR payment_mode = '2' AND transaction_status = '1')");
 		$getRows['title'] = "Home";
-		$getRows['recentOrderList'] = $this->CommonModel->getRowByIdInOrder('book_product', "booking_status = '0' AND (payment_mode = '1' OR payment_mode = '2' AND transaction_status = '1')", 'create_date', 'DESC');
+		// $getRows['recentOrderList'] = $this->CommonModel->getRowByIdInOrder('book_product', "	", 'create_date', 'DESC');
 		$this->load->view('admin/index', $getRows);
 	}
 

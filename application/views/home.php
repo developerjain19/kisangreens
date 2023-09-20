@@ -1,40 +1,46 @@
 <?php $this->load->view('includes/header'); ?>
-<section class="home-index-slider slider-arrow slider-dots">
-    <div class="banner-part banner-1">
+<style>
+    .banner-imgs{
+	height:550px !important; 
+	background-size:contain !important;
+}
+@media (max-width: 991px) {
+	.banner-imgs{
+		height:140px !important; 
+		background-size: cover !important;
+	}
+}
+</style>
+<section class="home-classic-slider slider-arrow">
+    <div class="banner-part sliderheight banner-imgs" style="background: url(assets/images/1.webp) no-repeat center;">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 col-lg-6">
-                    <div class="banner-content">
-                        <h1>Freshness Delivered to Your Doorstep</h1>
-                        <p>Discover the true essence of farm-fresh produce with KISAN Greens. We bring the vibrant goodness of nature right to your home.
-                        </p>
-                        <div class="banner-btn"><a class="btn btn-inline" href="<?= base_url('product') ?>"><i class="fas fa-shopping-basket"></i><span>shop now</span></a>
-                        <a class="btn btn-outline" href="<?= base_url('product') ?>"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6">
-                    <div class="banner-img"><img src="<?= base_url() ?>assets/images/home/index/01.png" alt="index"></div>
+            <div class="row">
+                <div class="col-md-8 col-lg-6">
+                   
                 </div>
             </div>
         </div>
     </div>
-    <div class="banner-part banner-2">
+    <div class="banner-part sliderheight banner-imgs" style="background: url(assets/images/2.webp) no-repeat center;">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 col-lg-6">
-                    <div class="banner-img"><img src="<?= base_url() ?>assets/images/home/index/02.png" alt="index"></div>
-                </div>
-                <div class="col-md-6 col-lg-6">
-                    <div class="banner-content">
-                        <h1>From Farm to Table, We Deliver Quality</h1>
-                        <p>Experience the journey of flavor and nutrition as we source directly from local farmers. Taste the difference with KISAN Greens.</p>
-                        <div class="banner-btn"><a class="btn btn-inline" href="<?= base_url('product') ?>"><i class="fas fa-shopping-basket"></i><span>shop now</span></a><a class="btn btn-outline" href="<?= base_url('product') ?>"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
-                    </div>
+            <div class="row">
+               
+            </div>
+        </div>
+    </div>
+    <div class="banner-part sliderheight banner-imgs" style="background: url(assets/images/3.webp) no-repeat center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-lg-6"></div>
+                <div class="col-md-8 col-lg-6">
+                   
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
 <section class="section suggest-part">
     <div class="container">
         <ul class="suggest-slider slider-arrow">
@@ -73,18 +79,18 @@
 
             <?php
             if ($product != '') {
-                   foreach ($product as $row) {
+                foreach ($product as $row) {
                     echo '<div class="col">';
                     product($row, 'normal');
                     echo '</div>';
                 }
             }
             ?>
-           <div class="row" style="display: contents;">
-            <div class="col-lg-12">
-                <div class="section-btn-25"><a href="<?= base_url('product') ?>" class="btn btn-outline"><i class="fas fa-eye"></i><span>show more</span></a></div>
+            <div class="row" style="display: contents;">
+                <div class="col-lg-12">
+                    <div class="section-btn-25"><a href="<?= base_url('product') ?>" class="btn btn-outline"><i class="fas fa-eye"></i><span>show more</span></a></div>
+                </div>
             </div>
-        </div>
         </div>
 </section>
 <div class="section promo-part">
@@ -106,13 +112,12 @@
             </div>
         </div>
         <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
-           
-        <?php
+
+            <?php
             if ($featurepro != '') {
-                   foreach ($featurepro as $row) {
+                foreach ($featurepro as $row) {
 
                     feature_product($row);
-                 
                 }
             }
             ?>
