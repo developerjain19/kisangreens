@@ -39,7 +39,7 @@
                                     if ($state_list) {
                                         foreach ($state_list as $state) {
                                     ?>
-                                            <option value="<?= $state['state_id'] ?>" <?= (($state['state_id'] ==  $login[0]['state']) ? 'Selected' : '') ?>><?= $state['state_name'] ?></option>
+                                            <option value="<?= $state['state_name'] ?>" <?= (($state['state_name'] ==  $login[0]['state']) ? 'Selected' : '') ?>><?= $state['state_name'] ?></option>
                                     <?php
                                         }
                                     }

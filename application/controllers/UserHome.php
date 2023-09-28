@@ -4,13 +4,10 @@ class UserHome extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->profile = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'));
     }
-
     public function index()
     {
-
         $data['banner'] = $this->CommonModel->getAllRowsInOrder('banner', 'banner_id', 'desc');
         $data['product'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1'), 'product_id', 'DESC', '10');
         $data['productdesc'] = $this->CommonModel->getRowByOrderWithLimit('product', array('status' => '1'), 'product_id', 'DESC', '20');
@@ -62,19 +59,14 @@ class UserHome extends CI_Controller
         $data['all_data'] = $this->CommonModel->runQuery($query);
         $this->load->view('get_product', $data);
     }
-
     public function product_details($id, $title)
     {
-
         $data['products_image'] = $this->CommonModel->getRowById('product_image', 'product_id', decryptId($id));
         $table = "tbl_product";
         $data['details'] = $this->CommonModel->getRowById($table,  'product_id', decryptId($id))[0];
         $data['title'] =  $data['details']['product_name'] . '| Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('product-details', $data);
     }
-
-
-
     public function contact()
     {
         if (count($_POST) > 0) {
@@ -90,9 +82,6 @@ class UserHome extends CI_Controller
         $data['title'] = 'Contact Us | Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('contact', $data);
     }
-
-
-
     public function register()
     {
         if ($this->session->has_userdata('login_user_id')) {
@@ -100,36 +89,63 @@ class UserHome extends CI_Controller
         }
         $data['logo'] = 'assets/logo.png';
         $data['title'] = 'Register - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
+        $data['state_list'] = $this->CommonModel->getAllRows('tbl_state');
         if (count($_POST) > 0) {
             $count = $this->CommonModel->getNumRows('user_registration', array('email_id' => $this->input->post('email_id'), 'contact_no' => $this->input->post('contact_no')));
-
             if ($count > 0) {
                 $this->session->set_userdata('msg', '<h6 class="alert alert-warning">You have already registered with this email id or contact no.</h6>');
             } else {
                 $post = $this->input->post();
+                $otp =  rand(1000, 10000);
+                $msg = "" . $otp . " is the verification code to log in to your account.";
+                sendOTP($post['contact_no'], $msg);
+                $this->session->set_userdata(array('user_name' => $post['name'], 'user_emailid' => $post['email_id'], 'user_contact' => $post['contact_no'], 'user_address' => $post['address'], 'user_area' => $post['area'], 'user_postal_code' => $post['postal_code'], 'user_state' => $post['state'], 'user_city' => $post['city'], 'user_otp' => $otp));
 
-                // $message = registermail($post['contact_no'],  $post['password'], base_url() . 'login');
-                // sendmail($post['email_id'], 'Registered With Kisan Greens | Welcome User', $message);
-                $regid = $this->CommonModel->insertRowReturnId('user_registration', $post);
-
-
-
-                if (!empty($regid)) {
-                    $this->session->set_userdata('msg', '<h6 class="alert alert-success">You have Registered Successfully.Check mail ID to get your password.Login to continue.</h6>');
-                    $this->session->set_userdata(array('login_user_id' => $regid, 'login_user_name' => $post['name'], 'login_user_emailid' => $post['email_id'], 'login_user_contact' => $post['contact_no']));
-                    if (count($this->cart->contents()) > 0) {
-                        redirect(base_url('checkout'));
-                    } else {
-                        redirect(base_url('profile'));
-                    }
-                } else {
-                    $this->session->set_userdata('msg', '<h6 class="alert alert-danger">Server error</h6>');
-                }
+                redirect('verify-registration');
+                exit();
             }
         } else {
         }
         $this->load->view('register', $data);
     }
+
+    public function verify_registration()
+    {
+        if ($this->session->has_userdata('login_user_id')) {
+            redirect(base_url('profile'));
+        }
+        $data['logo'] = 'assets/logo.png';
+        $data['title'] = 'Register - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
+
+        $this->load->view('check-otp', $data);
+    }
+    public function check_verification()
+    {
+        $responce = [];
+        $otp = $this->input->post('otp');
+
+        if ($this->session->userdata('user_otp') == $otp) {
+
+            $ins = $this->CommonModel->insertRow('user_registration', array('name' => sessionId('user_name'), 'email_id' => sessionId('user_emailid'), 'contact_no' => sessionId('user_contact'), 'address' => sessionId('user_address'), 'area' => sessionId('user_area'), 'postal_code' => sessionId('user_postal_code'), 'state' => sessionId('user_state'), 'city' => sessionId('user_city')));
+
+            $login_data = $this->CommonModel->getSingleRowById('user_registration', array('contact_no' => sessionId('user_contact')));
+            $session = $this->session->set_userdata(array('login_user_id' => $login_data['user_id'], 'login_user_name' => $login_data['name'], 'login_user_emailid' => $login_data['email_id'], 'login_user_contact' => $login_data['contact_no']));
+            $responce['reg_msg'] = 'OTP verified';
+            if (count($this->cart->contents()) > 0) {
+                $responce['status'] = '3';
+            } else {
+                $responce['status'] = '1';
+            }
+        } else {
+            // $responce['reg_msg'] = 'Wrong OTP';
+            $responce['reg_msg'] = 'Wrong OTP' . $otp;
+            $responce['status'] = '2';
+        }
+
+        echo json_encode($responce);
+    }
+
+
 
     public function login()
     {
@@ -214,9 +230,7 @@ class UserHome extends CI_Controller
         }
         $data['login_user'] = $this->session->userdata();
         $data['orderDetails'] = $this->CommonModel->getRowByIdInOrder('book_product', array('user_id' => $this->session->userdata('login_user_id')), 'product_book_id', 'DESC');
-
         $data['cancelOrderDetails'] = $this->CommonModel->getRowByIdInOrder('book_product', 'user_id = ' . $this->session->userdata('login_user_id') . ' AND booking_status = "2" ', 'product_book_id', 'DESC');
-
         $data['checkoutnum'] = $this->CommonModel->getNumRows('book_product', array('user_id' => $this->session->userdata('login_user_id')));
         $data['title'] = ' Profile - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $data['logo'] = 'assets/logo.png';
@@ -226,7 +240,6 @@ class UserHome extends CI_Controller
     {
         // echo '<pre>';
         // print_r($this->profile);
-
         if (!$this->session->has_userdata('login_user_id')) {
             redirect(base_url());
         }
@@ -306,18 +319,15 @@ class UserHome extends CI_Controller
         $this->session->unset_userdata('login_user_type');
         redirect(base_url());
     }
-
     public function checkout()
     {
         if (!$this->session->has_userdata('login_user_id')) {
             redirect('login');
         }
         $data['login'] = $this->CommonModel->getRowById('user_registration', 'user_id', $this->session->userdata('login_user_id'));
-
         $data['state_list'] = $this->CommonModel->getAllRows('tbl_state');
         $data['promocode'] = $this->CommonModel->getAllRows('promocode');
         $data['delivery'] = $this->CommonModel->getAllRows('tbl_delivery_charge')[0];
-
         $data['title'] = 'Checkout - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         if (count($_POST) > 0) {
             if ($this->input->post('final_amount') > 0) {
@@ -333,10 +343,6 @@ class UserHome extends CI_Controller
                 $postdata['order_id']  = $orderId;
                 $postdata['booking_date'] = setDateOnly();
                 $post = $this->CommonModel->insertRowReturnId('tbl_book_product', $postdata);
-
-
-
-
                 foreach ($this->cart->contents() as $items) :
                     $mydata[]  = array(
                         'create_date' => setDateTime(),
@@ -348,14 +354,10 @@ class UserHome extends CI_Controller
                         'product_id' => $items['id'],
                     );
                 endforeach;
-
-
                 $insert2 = $this->CommonModel->insertRowInBatch('tbl_book_item', $mydata);
-
                 if ($post != '') {
                     if ($this->input->post('payment_mode') == '1') {
                         redirect(base_url('booking-status'));
-
                         exit();
                     }
                 } else {
@@ -368,13 +370,11 @@ class UserHome extends CI_Controller
     }
     public function booking_status()
     {
-
         if (count($this->cart->contents()) > 0) {
             $data['logo'] = 'assets/logo.png';
             $data['title'] = 'Payment Status - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
             $msg = '';
             $msg .= '<img src="assets/img/order.png" alt="Booking" style="max-width: 250px;"/>';
-
             $msg .= "<p>We're prepping your order.You will be notified regarding the order shipment shortly .<br/>
         Till then happy shopping</p>";
             $msg .= "<br/>";
@@ -385,14 +385,12 @@ class UserHome extends CI_Controller
             redirect(base_url());
         }
     }
-
     public function getcity()
     {
         $state = $this->input->post('state');
         $data['city'] = $this->CommonModel->getRowByIdInOrder('tbl_city', array('state_id' => $state), 'city_name', 'asc');
         $this->load->view('dropdown', $data);
     }
-
     public function privacy_policy()
     {
         $data['pp'] = $this->CommonModel->getRowById('tbl_policy', 'ppid', '1');
@@ -423,10 +421,57 @@ class UserHome extends CI_Controller
         $data['title'] = 'Terms & Condition - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('term-condition', $data);
     }
-
     public function about()
     {
         $data['title'] = 'About Us - Kisan Greens | Farm Fresh Product in Bhopal, Madhya Pradesh';
         $this->load->view('about', $data);
+    }
+    public function get_otp()
+    {
+        $responce = [];
+        $contactno = $this->input->post('contactno');
+        $otp =  rand(1000, 10000);
+        $data = $this->CommonModel->getNumRows('user_registration', array('contact_no' => $contactno));
+        if ($data == 1) {
+            $this->session->set_userdata('otp', $otp);
+            $responce['login_msg'] = 'Enter OTP send to your given whatsapp number to logIn to your account';
+            $msg = "" . $otp . " is the verification code to log in to your Kisan Greens account number.";
+            sendOTP($contactno, $msg);
+            $responce['status'] = '1';
+        } else {
+            $responce['login_msg'] = 'Unable to find account. No registration with this contact. To inform us, please send us a mail.';
+            $responce['status'] = '0';
+        }
+        echo json_encode($responce);
+    }
+    public function verify_otp()
+    {
+        $responce = [];
+        $contactno = $this->input->post('contactno');
+        $otp = $this->input->post('otp');
+        $data = $this->CommonModel->getNumRows('user_registration', array('contact_no' => $contactno));
+        if ($data == 0) {
+            $responce['status'] = 'Breach identified';
+        } elseif ($data == 1) {
+            if ($this->session->userdata('otp') == $otp) {
+                $login_data = $this->CommonModel->getSingleRowById('user_registration', array('contact_no' => $contactno));
+                $session = $this->session->set_userdata(array('login_user_id' => $login_data['user_id'], 'login_user_name' => $login_data['name'], 'login_user_emailid' => $login_data['email_id'], 'login_user_contact' => $login_data['contact_no']));
+                $this->session->unset_userdata('otp');
+                $responce['login_msg'] = 'OTP verified';
+                if (count($this->cart->contents()) > 0) {
+                    $responce['status'] = '3';
+                } else {
+                    $responce['status'] = '1';
+                }
+            } else {
+                // $responce['login_msg'] = 'Wrong OTP';
+                $responce['login_msg'] = 'Wrong OTP' . $this->session->userdata('otp');
+                $responce['status'] = '2';
+            }
+        } else {
+            $responce['login_msg'] = 'Account Not found with this contact no.';
+            $responce['status'] = '0';
+        }
+        echo json_encode($responce);
     }
 }

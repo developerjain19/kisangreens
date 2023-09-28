@@ -74,3 +74,4 @@
 		</div>
 	</div>
 </footer>
+<input type="hidden" value="<?= base_url() ?>" id="base">

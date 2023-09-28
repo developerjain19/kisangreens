@@ -274,32 +274,27 @@ function flashData($var, $message)
 	return $ci->session->set_flashdata($var, $message);
 }
 
-function sendOTP($contact_no, $message_content)
+function sendOTP($contact_no, $message, $route = 1)
 {
+	$api_key = "50LPW9S1327IO96TZNRJFET4H";
 
-	// Account details
-	// $apiKey = urlencode('b6CLOTHb+qo-crfyl0wtLevFXS2nixyK1tCtJCFTMy');
+	$dataArray['api_key'] = $api_key;
+	$dataArray['route'] = $route;
+	$dataArray['number'] = $contact_no;
+	$dataArray['message'] = $message;
 
-	// // Message details
-	// $numbers = array('91' . $contact_no);
-	// $sender = urlencode('PRODED');
-	// $message = rawurlencode($message_content);
-
-	// $numbers = implode(',', $numbers);
-
-	// // Prepare data for POST request
-	// $data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
-
-	// // Send the POST request with cURL
-	// $ch = curl_init('https://api.textlocal.in/send/');
-	// curl_setopt($ch, CURLOPT_POST, true);
-	// curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-	// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	// $response = curl_exec($ch);
-	// curl_close($ch);
-
-	// // Process your response here
-	// echo $response;
+	$ch = curl_init();
+	$url =  "https://www.wpsenders.com/api/sendOTPMessage";
+	$getUrl = $url;
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	curl_setopt($ch, CURLOPT_POST, 10);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $dataArray);
+	curl_setopt($ch, CURLOPT_URL, $getUrl);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 80);
+	$response = curl_exec($ch);
+	return json_decode($response, true);
 }
 
 function getUserId($token)

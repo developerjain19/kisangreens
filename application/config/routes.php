@@ -73,7 +73,7 @@ $route['about'] = 'UserHome/about';
 $route['term-condition'] = 'UserHome/term_condition';
 $route['privacy-policy'] = 'UserHome/privacy_policy';
 $route['shipping-policy'] = 'UserHome/shipping_policy';
-
+$route['verify-registration'] = 'UserHome/verify_registration';
 $route['logout'] = 'UserHome/logout';
 $route['booking-status'] = 'UserHome/booking_status';
 

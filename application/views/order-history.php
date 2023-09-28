@@ -17,6 +17,9 @@
                     <div class="filter-short"><label class="form-label"></label>
                         <a href="<?= base_url('profile') ?>" style="color:green">My Profile<i class="icofont-arrow-right"></i>
                         </a>
+                        <!-- <a href="<?= base_url('logout') ?>" class="logout">
+                                Logout
+                            </a> -->
                     </div>
                 </div>
             </div>
